@@ -1,0 +1,66 @@
+.navBar {
+   /*background-color: #c6eef2;*/
+   background-image: url("/images/welcome2.png");
+   background-size: 100%;
+}
+
+.welcome {
+   /*background-image: url("/images/food.png");
+   background-size: 100%;*/
+   padding:150px;
+}
+
+.businessRow:hover {
+   background-color: #c6eef2;
+}
+
+#slider {
+  margin: auto;
+    width: 720px;
+    height: 400px;
+    overflow: hidden;
+}
+
+#slider .slides { /* ul */
+    display: block;
+    /*width of all the photos in the slide*/
+    width: 6000px;
+    height: 400px;
+    margin: 0;
+    padding: 0;
+}
+
+#slider .slide {
+    float: left;
+    list-style-type: none;
+    width: 720px;
+    height: 400px;
+}
+
+/* helper css, since we don't have images */
+.slide1 {background: red;}
+.slide2 {background: blue;}
+.slide3 {background: green;}
+.slide4 {background: purple;}
+.slide5 {background: pink;}
+
+/* welcome page button*/
+.beginButton {
+  display: flex;
+  justify-content: center;
+}
+
+/*index message*/
+.message {
+  border: solid 1px #d4e7f2;
+	background-color: white;
+  margin: auto;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+
+#editForm {
+  border: solid 1px #dfdfdf;
+  padding: 20px;
+  border-radius: 5px;
+}

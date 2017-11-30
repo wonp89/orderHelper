@@ -1,0 +1,157 @@
+<%- include('../partials/header') %>
+<br>
+        <section class="businesses-list row justify-content-center" style="width: 80%;margin: auto;">
+          <%# <div class="plus" style="width: 100%; text-align: center">Click to Create</div>%>
+
+      <!-- Create Business-->
+          <div class="container" style="text-align: center">
+              <!-- Trigger the modal with a button -->
+              <a href="#" data-toggle="modal" data-target="#myModal">CREATE LIST</a>
+              <!-- Modal -->
+              <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog">
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <h4 class="modal-title">Create a Business</h4>
+                    </div>
+                    <div class="modal-body">
+                      <!-- Inside Modal -->
+                      <form class="form-inline" action="/businesses" method='POST'>
+                        <div class="row" style="margin: auto;" id="business_form">
+                          <i class="fa fa-briefcase" aria-hidden="true"></i>
+                              <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInput" placeholder="Business Name" name="business_name" style="margin-left: 7px;">
+                              <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
+                            <div class="input-group mb-2 mr-sm-2 mb-sm-0"  style="margin-left: 7px;">
+                              <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Delivery Day" name='day'>
+                            </div>
+                            <i class="fa fa-plus-square-o plus" aria-hidden="true"></i>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="margin: auto; margin-top: 15px;">Create</button>
+                      </form>
+                      <!-- -->
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+          <% for (let business of businesses) { %>
+            <% if (business["userId"] === currentUser["id"]) { %>
+            <div class="col-md-10 list_show" style="margin-top: 20px">
+              <div class="card businessRow">
+                <div class="card-header" style="padding-bottom: 7px">
+
+                      <div class="row">
+                        <div class="col-md-5">
+                          <h5 style="display: inline-block;text-transform: uppercase;"><%= business.business_name %></h5>
+                        </div>
+                        <div class="col-md-7">
+                          <h5 style="display: inline-block;text-transform: uppercase;"><%= business.day %></h5>
+
+                          <div class="dropdown" style="float:right; display:none">
+                           <button class="btn btn-secondary dropdown-toggle"
+                                   type="button" id="dropdownMenu1" data-toggle="dropdown"
+                                   aria-haspopup="true" aria-expanded="false" style="padding:0">
+                             Menu
+                           </button>
+                           <div class="dropdown-menu" aria-labelledby="dropdownMenu1" style="text-align: center;">
+                              <a class="dropdown-item" href="/businesses/<%= business.id %>/edit">edit</a>
+                           </div>
+                          </div>
+
+
+                        </div>
+                      </div>
+
+                </div>
+              </div>
+            </div>
+            <div class="col-md-10" style="display: none;">
+              <div class="card">
+
+              <!-- //form group -->
+              <div class="row" style="padding-top: 15px;margin: auto;">
+                <div class="col-md-3">
+                    <form action="/businesses/<%= business.id %>/orders" method="POST">
+                         <div class="form-group">
+                           <input
+                             class="form-control"
+                             type="text"
+                             rows="3"
+                             name="order_name"
+                             placeholder="Add Orders"
+                           >
+                         </div>
+                </div>
+                <div class="col-md-3">
+                           <div class="form-group">
+                             <input
+                               class="form-control"
+                               type="text"
+                               rows="3"
+                               name="quantity"
+                               placeholder="Add Quantity"
+                             >
+                           </div>
+                </div>
+                <div class="col-md-5">
+                           <div class="form-group">
+                             <input
+                               class="form-control"
+                               type="text"
+                               rows="3"
+                               name="message"
+                               placeholder="Optional Message"
+                             >
+                           </div>
+                </div>
+                <div class="col-md-1">
+                          <input
+                          class="btn btn-outline-primary"
+                          type="submit"
+                          value="Submit" >
+                    </form>
+                </div>
+              </div>
+
+
+                <div class="card-header list_dropdown" style="padding-bottom: 7px; background-color: #f9fdff;border-top: solid 1px #e6f1f7;">
+                    <% for (let order of orders) { %>
+                          <%  if (order['businessId'] === business.id) { %>
+                            <div class="row" style="margin-top: 5px;">
+                              <div class="col-md-4">
+                                <input type="checkbox" checked="checked">
+                                <span class="checkmark"></span>
+                                 name : <strong style="text-transform: uppercase"> <%= order.order_name %></strong>
+                              </div>
+                              <div class="col-md-3">
+                                quantity : <strong><%= order.quantity %></strong>
+                              </div>
+                              <div class="col-md-5">
+                              <%  if (order['message']) { %>
+                                  <div class="message">&nbsp&nbsp<i class="fa fa-hand-o-right" aria-hidden="true" style="color: #ffc9c9; font-size: 20px;"></i>
+                                      &nbsp<%= order.message %>
+                                  </div>
+                              <% } %>
+                              </div>
+                            </div>
+                          <% } %>
+                    <% } %>
+                      <div class="row" style="display: flex;justify-content: center;margin-top:20px">
+                        <button type="button" class="btn btn-primary active">Confirm Orders</button>
+                      </div>
+                </div>
+              </div>
+            </div>
+          <% } %>
+        <% } %>
+
+        </section>
+
+
+<%- include('../partials/footer') %>
