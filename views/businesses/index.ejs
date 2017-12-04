@@ -1,12 +1,13 @@
 <%- include('../partials/header') %>
 <br>
-        <section class="businesses-list row justify-content-center" style="width: 80%;margin: auto;">
+  <section class="businesses-list row justify-content-center" style="width: 80%;margin: auto;" id="indexSection">
           <%# <div class="plus" style="width: 100%; text-align: center">Click to Create</div>%>
 
       <!-- Create Business-->
           <div class="container" style="text-align: center">
               <!-- Trigger the modal with a button -->
-              <a href="#" data-toggle="modal" data-target="#myModal">CREATE LIST</a>
+              <h2>My Suppliers</h2>
+              <a href="#" data-toggle="modal" data-target="#myModal">Add Supplier</a>
               <!-- Modal -->
               <div class="modal fade" id="myModal" role="dialog">
                 <div class="modal-dialog">
@@ -14,22 +15,29 @@
                   <div class="modal-content">
                     <div class="modal-header">
                       <button type="button" class="close" data-dismiss="modal">&times;</button>
-                      <h4 class="modal-title">Create a Business</h4>
+                      <h4 class="modal-title">Add a Supplier</h4>
                     </div>
                     <div class="modal-body">
-                      <!-- Inside Modal -->
-                      <form class="form-inline" action="/businesses" method='POST'>
-                        <div class="row" style="margin: auto;" id="business_form">
-                          <i class="fa fa-briefcase" aria-hidden="true"></i>
-                              <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInput" placeholder="Business Name" name="business_name" style="margin-left: 7px;">
-                              <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
-                            <div class="input-group mb-2 mr-sm-2 mb-sm-0"  style="margin-left: 7px;">
-                              <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Delivery Day" name='day'>
+                      <!-- Inside Modal : supplier and day selector -->
+                        <form class="form-inline" action="/businesses/supplierList" method='POST'>
+                          <div class="row" style="margin: auto;" id="business_form">
+                            <select name="supplierId" class="spplierSelector">
+                                <% for (let supplier of suppliers) { %>
+                                  <option value=<%= supplier.id %>><%= supplier.businessName %></option>
+                                <% } %>
+                            </select>
+                            <div class="form-group">
+                              <input
+                                style="margin-left: 10px"
+                                class="form-control"
+                                type="text"
+                                name="day"
+                                placeholder="Add Days"
+                              >
                             </div>
-                            <i class="fa fa-plus-square-o plus" aria-hidden="true"></i>
-                        </div>
-                        <button type="submit" class="btn btn-primary" style="margin: auto; margin-top: 15px;">Create</button>
-                      </form>
+                            <button type="submit" class="btn btn-primary addButton">Add</button>
+                          </div>
+                        </form>
                       <!-- -->
                     </div>
                     <div class="modal-footer">
@@ -40,19 +48,19 @@
             </div>
 
 
-          <% for (let business of businesses) { %>
-            <% if (business["userId"] === currentUser["id"]) { %>
-            <div class="col-md-10 list_show" style="margin-top: 20px">
+        <% for (let supplier of businessSuppliers) { %>
+          <% if (supplier.businessId === currentUser.id) { %>
+
+            <div class="col-md-10 list_show names" style="margin-top: 20px">
               <div class="card businessRow">
                 <div class="card-header" style="padding-bottom: 7px">
 
                       <div class="row">
                         <div class="col-md-5">
-                          <h5 style="display: inline-block;text-transform: uppercase;"><%= business.business_name %></h5>
+                          <h5 style="display: inline-block;text-transform: uppercase;"><%= supplier.businessName %></h5>
                         </div>
                         <div class="col-md-7">
-                          <h5 style="display: inline-block;text-transform: uppercase;"><%= business.day %></h5>
-
+                                  <h5 style="display: inline-block;text-transform: uppercase;"><%= supplier.day %></h5>
                           <div class="dropdown" style="float:right; display:none">
                            <button class="btn btn-secondary dropdown-toggle"
                                    type="button" id="dropdownMenu1" data-toggle="dropdown"
@@ -60,24 +68,23 @@
                              Menu
                            </button>
                            <div class="dropdown-menu" aria-labelledby="dropdownMenu1" style="text-align: center;">
-                              <a class="dropdown-item" href="/businesses/<%= business.id %>/edit">edit</a>
+                              <a class="dropdown-item" href="/businesses/<%= supplier.id %>/edit">edit</a>
                            </div>
                           </div>
-
-
                         </div>
                       </div>
 
                 </div>
               </div>
             </div>
+
             <div class="col-md-10" style="display: none;">
               <div class="card">
 
               <!-- //form group -->
               <div class="row" style="padding-top: 15px;margin: auto;">
-                <div class="col-md-3">
-                    <form action="/businesses/<%= business.id %>/orders" method="POST">
+                <div class="col-md-4">
+                    <form action="/businesses/<%= supplier.supplierId %>/orders" method="POST">
                          <div class="form-group">
                            <input
                              class="form-control"
@@ -88,7 +95,7 @@
                            >
                          </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                            <div class="form-group">
                              <input
                                class="form-control"
@@ -99,7 +106,7 @@
                              >
                            </div>
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-4">
                            <div class="form-group">
                              <input
                                class="form-control"
@@ -110,11 +117,13 @@
                              >
                            </div>
                 </div>
-                <div class="col-md-1">
+                <div style="margin: auto;">
                           <input
                           class="btn btn-outline-primary"
                           type="submit"
-                          value="Submit" >
+                          value="Submit"
+                          style="width: 200px;margin-bottom: 15px"
+                          >
                     </form>
                 </div>
               </div>
@@ -122,11 +131,9 @@
 
                 <div class="card-header list_dropdown" style="padding-bottom: 7px; background-color: #f9fdff;border-top: solid 1px #e6f1f7;">
                     <% for (let order of orders) { %>
-                          <%  if (order['businessId'] === business.id) { %>
+                      <% if (order.supplierId === supplier.supplierId && order.businessId === supplier.businessId) { %>
                             <div class="row" style="margin-top: 5px;">
                               <div class="col-md-4">
-                                <input type="checkbox" checked="checked">
-                                <span class="checkmark"></span>
                                  name : <strong style="text-transform: uppercase"> <%= order.order_name %></strong>
                               </div>
                               <div class="col-md-3">
@@ -151,7 +158,8 @@
           <% } %>
         <% } %>
 
-        </section>
+
+  </section>
 
 
 <%- include('../partials/footer') %>

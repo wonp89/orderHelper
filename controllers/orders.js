@@ -3,38 +3,37 @@ const kx = require('../db/connection')
 const OrdersController = {
 
   create (req, res, next) {
-    const {businessId} = req.params
+    const {supplierId} = req.params
     const {order_name, quantity, message} = req.body
     const {currentUser} = req
-    // const {filename} = req.file;
 
     kx
-      .insert({order_name, quantity, message, businessId, userId: currentUser.id})  // , photo_path: `/uploads/${filename}`
+      .insert({order_name, quantity, message, supplierId, businessId: currentUser.id })
       .into('orders')
       .then(() => res.redirect(`/businesses`))
       .catch(error => next(error))
     },
 
-    destroy (req, res, next) {
-      const {id, businessId} = req.params
+  destroy (req, res, next) {
+      const {id, supplierId} = req.params
 
      kx
        .delete()
        .from('orders')
        .where({id})
-       .then(() => res.redirect(`/businesses/${businessId}/edit`))
+       .then(() => res.redirect(`/businesses/${supplierId}/edit`))
        .catch(error => next(error))
      },
 
-    update (req, res, next) {
-      const {id, businessId} = req.params
+  update (req, res, next) {
+      const {id, supplierId} = req.params
       const {order_name, quantity} = req.body
       const order = {order_name, quantity}
 
       kx('orders')
       .update(order)
       .where({id})
-      .then(() => res.redirect(`/businesses/${businessId}/edit`))
+      .then(() => res.redirect(`/businesses/${supplierId}/edit`))
       .catch(error => next(error))
     }
 

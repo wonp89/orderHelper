@@ -6,7 +6,7 @@ const UsersController = {
     res.render('users/new')
   },
   async create (req, res, next) {
-    const {username, email, password, confirmPassword, userType} = req.body
+    const {businessName, email, password, confirmPassword, street, city, province, postal, country, userType} = req.body
 
     if (password !== confirmPassword) {
       req.flash('danger', 'Password and confirmation do not match')
@@ -17,9 +17,8 @@ const UsersController = {
 
       const passwordDigest = await bcrypt.hash(password, 10)
 
-
       const [user] = await kx
-        .insert({username, email, passwordDigest, userType})
+        .insert({businessName, email, passwordDigest, street, city, province, postal, country, userType})
         .into('users')
         .returning('*')
 

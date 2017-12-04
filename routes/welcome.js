@@ -4,15 +4,17 @@ const BusinessesController = require('../controllers/businesses')
 const OrdersController = require('../controllers/orders')
 const UsersController = require('../controllers/users')
 const SessionsController = require('../controllers/sessions')
+const BusinessRelationshipController = require('../controllers/businessRelationship')
 
-
-// Define Router Instances
+//----- Router Defined --------//
 const root = Router()
 const businesses = Router()
 const orders = Router({mergeParams: true})
 const users = Router()
 const session = Router()
+const businessRelationship = Router()
 
+//--------- authenticate setup ----------//
 function authenticate (req, res, next) {
   if (!req.currentUser) {
     res.flash('warning', 'Please Sign In first')
@@ -22,40 +24,39 @@ function authenticate (req, res, next) {
   }
 }
 
-
-/* GET home page. */
+//------------ GET home page --------------//
 root.get('/', function(req, res, next) {
   res.render('./welcome/welcome');
 });
 businesses.use(authenticate)
 
-//businesses pages
+//--------- businesses views pages ---------//
 root.use('/businesses', businesses)
 businesses.get('/', BusinessesController.index)
-businesses.post('/', BusinessesController.create)
 businesses.get('/:id/edit', authenticate,  BusinessesController.edit)
-businesses.delete('/:id', BusinessesController.destroy)
-businesses.patch('/:id', BusinessesController.update)
 
-
-//orders Routes
-businesses.use('/:businessId/orders', orders)
+//--------- orders Routes ----------//
+businesses.use('/:supplierId/orders', orders)
 root.use('/businesses', orders)
-orders.post('/:businessId/orders',  authenticate, OrdersController.create)
-orders.delete('/:businessId/orders/:id', OrdersController.destroy)
-orders.patch('/:businessId/orders/:id', OrdersController.update)
+orders.post('/:supplierId/orders',  authenticate, OrdersController.create)
+orders.delete('/:supplierId/orders/:id', OrdersController.destroy)
+orders.patch('/:supplierId/orders/:id', OrdersController.update)
 
-// Users Routes
+//--------- Users Routes ---------//
 root.use('/users', users)
 users.get('/new', UsersController.new)
 users.post('/', UsersController.create)
 
-
-// Session routes
+//-------- Session routes --------//
 root.use('/session', session)
 session.get('/new', SessionsController.new)
 session.post('/', SessionsController.create)
 session.delete('/', SessionsController.destroy)
+
+//---------- Business Relationship--------//
+root.use('/businesses', businessRelationship)
+businessRelationship.post('/supplierList', BusinessRelationshipController.supplierList)
+businessRelationship.delete('/:id', BusinessRelationshipController.destroy)
 
 
 module.exports = root;

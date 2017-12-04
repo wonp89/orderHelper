@@ -10,32 +10,24 @@
     <script defer src="/js/popper.min.js" charset="utf-8"></script>
     <script defer src="/js/bootstrap.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/main.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
   </head>
   <body>
 
     <div class="row navBar">
-        <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" style="margin-bottom: 10px;">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="text" placeholder="Business name">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-              </form>
-              <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                  <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-                </li>
-              </ul>
-            </div>
-          </nav>
+      <nav class="navbar navbar-light bg-faded justify-content-between">
+      <a class="navbar-brand"  href="/">Home</a>
+      <form class="form-inline">
+        <input class="form-control mr-sm-2" id="businessSearch" type="text" placeholder="Search"  onkeyup="myFunction()">
+      </form>
+    </nav>
+
     <%# Sign in & Sign up%>
             <ul class="ml-auto"style="margin-right: 20px; margin-top: 10px">
              <% if (currentUser) { %>
                <li class="nav-item" style="display: inline-block">
-                <span class="navbar-text"><strong>Hello <%= currentUser.username %></strong></span>
+                <span class="navbar-text"><strong>Hello <%= currentUser.businessName %></strong></span>
                </li>
                <li class="nav-item ml-2" style="display: inline-block">
                  <form class="form-inline" action="/session?_method=DELETE" method="POST">

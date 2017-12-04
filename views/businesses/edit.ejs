@@ -3,8 +3,9 @@
 <br>
 <section class="business-list row justify-content-center">
       <div class="container">
+      <% if (business.businessId === currentUser.id) { %>
           <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-7">
               <div class="card">
                 <div class="card-header d-flex align-items-center">
                   <form class="ml-auto" action="/businesses/<%= business.id %>?_method=DELETE" method="POST" style="margin: auto;">
@@ -12,18 +13,10 @@
                   </form>
                 </div>
                 <div class="card-body">
-                  <h3>BUSINESS</h3>
-                  <p class="card-text">
-                    Business Name: <strong style="text-transform: uppercase"><%= business.business_name %></strong>
-                  </p>
-                  <p class="card-text">
-                    Day: <strong style="text-transform: uppercase"><%= business.day %></strong>
-                  </p>
-                  <br>
-                  <%  if (orders) { %>
-                    <h4>ORDERS</h4>
+                  <h4>ORDERS</h4>
                     <% for (let order of orders) { %>
-                        <div class="row">
+                      <% if (business.businessId === order.businessId && business.supplierId === order.supplierId) { %>
+                        <div class="row" style="padding-top: 8px;border-bottom: solid 1px #e6e6e6;">
                           <div class="col-md-4">
                             <p>
                               Order Name: <%= order.order_name %>
@@ -37,73 +30,33 @@
                           <div class="col-md-4">
                             <form
                               class="d-flex flex-column"
-                              action="/businesses/<%= order.businessId %>/orders/<%= order.id %>?_method=DELETE"
+                              action="/businesses/<%= business.id %>/orders/<%= order.id %>?_method=DELETE"
                               method='POST'
                             >
                                 <input
                                   class="btn btn-warning"
                                   type='submit'
                                   value='Delete Order'
+                                  style="padding: 5px"
                                 />
                             </form>
                           </div>
                         </div>
+                      <% } %>
                     <% } %>
-                  <% } %>
               </div>
             </div>
           </div>
 
-
-
-                  <%# EDIT %>
-                    <div class="col-lg-6" id="editForm">
-                      <form
-                        class="d-flex flex-column"
-                        action="/businesses/<%= business.id %>?_method=PATCH"
-                        method='POST'
-                        style="padding-bottom: 10px;"
-                      >
-                      <div class="row">
-                        <div class=col-md-5>
-                          <div class="form-group">
-                            <div style="margin-bottom: 10px;"><strong>Name of the Business</strong></div>
-                            <input
-                              type="text"
-                              class="form-control"
-                              name='business_name'
-                              value="<%= business.business_name %>"
-                            ></input>
-                          </div>
-                        </div>
-                        <div class=col-md-5>
-                          <div class="form-group">
-                            <div style="margin-bottom: 10px;"><strong>Which Day?</strong></div>
-                            <input
-                              type="text"
-                              class="form-control"
-                              name='day'
-                              value="<%= business.day %>"
-                            ></input>
-                          </div>
-                        </div>
-                        <div class=col-md-2>
-                            <div style="margin-bottom: 10px;color: white"><strong>W</strong></div>
-                              <input
-                                class="btn btn-outline-primary align-self-end"
-                                type='submit'
-                                value='Edit'
-                              />
-                        </div>
-                      </div>
-                    </form>
-                    <hr>
-                    <% if (orders) { %>
-                    <div style="margin-bottom: 10px;"><strong>Orders</strong></div>
+<%# ---------------------------------- EDIT ------------------------------------ %>
+          <div class="col-lg-5" id="editForm">
+              <div class="container">
+                    <div style="margin-bottom: 10px;"><strong>Edit Orders</strong></div>
                     <% for (let order of orders) { %>
+                        <% if (business.businessId === order.businessId && business.supplierId === order.supplierId) { %>
                       <form
                         class="d-flex flex-column"
-                        action="/businesses/<%= order.businessId %>/orders/<%= order.id %>?_method=PATCH"
+                        action="/businesses/<%= business.id %>/orders/<%= order.id %>?_method=PATCH"
                         method='POST'
                       >
                         <div class="row">
@@ -134,14 +87,39 @@
                         </div>
                       </div>
                      </form>
-                    <% } %>
                   <% } %>
-                  </div>
-              <form class="form-inline beginButton" action="/businesses" method="GET" style="width:100%; padding-top:20px">
-                    <input class="btn btn-outline-primary" type="submit" value="Back">
-              </form>
-          </div>
-        </div>
-  </section>
+                <% } %>
+                </div>
+              </div>
+            </div>
+          <form class="form-inline beginButton" action="/businesses" method="GET" style="width:100%; padding-top:20px">
+                <input class="btn btn-outline-primary" type="submit" value="Go Back" style="width:30%">
+          </form>
+
+      <% } %>
+
+      <%# ---------- google map ------------- %>
+      <br>
+      <br>
+      <% if (currentUser.userType == "supplier") { %>
+        <% for (let res of supplier) { %>
+            <% if (business.businessId === res.businessId) { %>
+              <h3>Name of the Business:</h3><h1><%= res.businessName %> </h1>
+              <div id="restaurantAddress"><strong>Address: </strong><%=  res.street %>&nbsp<%=  res.city %>&nbsp<%=  res.province %>&nbsp<%=  res.postal %></div>
+            <% } %>
+         <% } %>
+      <% } %>
+
+      <br>
+      <%  if (currentUser.userType === 'supplier') { %>
+        <h3 style="text-align: center;">Location</h3>
+        <div id="map" style="border-radius:15px"></div>
+      <% } %>
+
+      </div>
+</section>
+
+
+
 
 <%- include('../partials/footer') %>

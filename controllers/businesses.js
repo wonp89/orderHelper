@@ -1,4 +1,49 @@
+// ------------------------------------ Index Page ---------------------------------- //
+
 const kx = require('../db/connection')
+
+const businessView = async (currentUser, req, res, next) => {
+
+  try {
+    const suppliers = await kx
+    .select('users.*')
+    .from('users')
+    .where({userType: "supplier"})
+
+    const businessSuppliers = await kx
+    .select('*', 'users.id as userId')
+    .from('users')
+    .innerJoin('businessRelationship', 'users.id', 'businessRelationship.supplierId')
+
+    const orders = await kx
+    .select()
+    .from('orders')
+    .innerJoin('users', 'orders.supplierId', 'users.id')
+
+      res.render('businesses/index', {businessSuppliers, orders, suppliers})
+    } catch (error) {
+      next(error)
+    }
+}
+
+const supplierView = async (currentUser, req, res, next) => {
+  try {
+
+    const businesses = await kx
+    .select('*', 'users.id as userId')
+    .from('users')
+    .innerJoin('businessRelationship', 'users.id', 'businessRelationship.businessId')
+
+    const orders = await kx
+    .select()
+    .from('orders')
+    .innerJoin('users', 'orders.businessId', 'users.id')
+
+      res.render('businesses/supplierIndex', {businesses, orders})
+    } catch (error) {
+      next(error)
+    }
+}
 
 const BusinessesController = {
 
@@ -6,92 +51,45 @@ const BusinessesController = {
     const {currentUser} = req;
 
     try {
-      const businesses = await kx
-      .select('businesses.*', 'users.username as username')
-      .from('businesses')
-      // .where({userId: currentUser.id})
-      // .orWhere({business: currentUser})
-      .innerJoin('users', 'businesses.userId', 'users.id')
-
-      const orders = await kx
-      .select()
-      .from('orders')
-      // .where({user: currentUser})
-      // .orWhere({business: currentUser})
-      .innerJoin('businesses', 'orders.businessId', 'businesses.id')
-      // .then(data => console.log(data))
-
-        res.render('businesses/index', {businesses, orders})
-      } catch (error) {
-        next(error)
+      if (currentUser.userType == "supplier") {
+        await supplierView(currentUser, req, res, next)
+      } else {
+        await businessView(currentUser, req, res, next)
       }
 
-  },
-
-create (req, res, next) {
-    const {business_name, day} = req.body;
-    const {currentUser} = req;
-
-    if (typeof business_name === 'string') {
-     kx
-      .insert({business_name: business_name, day: day, userId: currentUser.id})
-      .into('businesses')
-      .then(() => res.redirect('/businesses'))
-    } else {
-      for (let i = 0;i < business_name.length;i++) {
-        kx
-        .insert({business_name: business_name[i], day: day[i], userId: currentUser.id})
-        .into('businesses')
-        .then(() => {
-        req.flash('success', 'Business Created!')
-        res.redirect('/businesses')
-        })
-      }
+    } catch (error) {
+      next(error)
     }
   },
 
+  //>>>>>>>>>>>>--------------------------- Show + Edit Page --------------------------<<<<<<<<<<//
+
   async edit (req, res, next) {
     const {id} = req.params
+    const {currentUser} = req;
 
     try {
       const business = await kx
       .first()
-      .from('businesses')
+      .from('businessRelationship')
       .where({id})
+
+      const supplier = await kx
+      .select()
+      .from('businessRelationship')
+      .where({supplierId: currentUser.id})
+      .innerJoin('users', 'users.id', 'businessRelationship.businessId')
 
       const orders = await kx
       .select()
       .from('orders')
-      .where({businessId: id})
+      .where({businessId: currentUser.id})
 
-        res.render('businesses/edit', {business, orders})
+        res.render('businesses/edit', {business, orders, supplier})
       } catch (error) {
         next(error)
       }
     },
-
-    destroy (req, res, next) {
-      const {id} = req.params
-
-     kx
-       .delete()
-       .from('businesses')
-       .where({id})
-       .then(() => res.redirect('/businesses'))
-       .catch(error => next(error))
-     },
-
-    update (req, res, next) {
-      const {id} = req.params
-      const {business_name, day} = req.body
-      const business = {business_name, day}
-
-      kx('businesses')
-      .update(business)
-      .where({id})
-      .then(() => res.redirect(`/businesses/${id}/edit`))
-      .catch(error => next(error))
-    }
 
 }
 
