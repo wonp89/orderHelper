@@ -4,8 +4,12 @@
           <h2 style="width: 100%; text-align: center">My Clients</h2>
           <% for (let business of businesses) { %>
             <% if (business.supplierId === currentUser.id) { %>
-            <div class="col-md-10 list_show names" style="margin-top: 20px">
-              <div class="card businessRow">
+              <div class="col-md-10 list_show names">
+              <% if (business.confirm === true) { %>
+              <div class="card businessRow animated fadeInDown" style="background-color: #ccf0d5;">
+              <% } else { %>
+              <div class="card businessRow animated fadeInDown">
+              <% }  %>
                 <div class="card-header" style="padding-bottom: 7px">
 
                       <div class="row">
@@ -14,16 +18,11 @@
                         </div>
                         <div class="col-md-7">
                           <h5 style="display: inline-block;text-transform: uppercase;"><%= business.day %></h5>
-                          <div class="dropdown" style="float:right; display:none">
-                           <button class="btn btn-secondary dropdown-toggle"
-                                   type="button" id="dropdownMenu1" data-toggle="dropdown"
-                                   aria-haspopup="true" aria-expanded="false" style="padding:0">
-                             Menu
-                           </button>
-                           <div class="dropdown-menu" aria-labelledby="dropdownMenu1" style="text-align: center;">
-                              <a class="dropdown-item" href="/businesses/<%= business.id %>/edit">edit</a>
-                           </div>
-                          </div>
+                            <% if (business.confirm === true) { %>
+                              <i class="fa fa-circle" aria-hidden="true" style="float:right;color:red"></i>
+                            <% } %>
+                              <a class="checkOrder" style="float:right; display:none" href="/businesses/<%= business.id %>/edit">Check Restaurant</a>
+
                         </div>
                       </div>
 
@@ -33,12 +32,20 @@
             <div class="col-md-10" style="display: none;">
               <div class="card">
 
-                <div class="card-header list_dropdown" style="padding-bottom: 7px; background-color: #f9fdff;border-top: solid 1px #e6f1f7;">
+                <div class="card-header list_dropdown" style="background-color: #f9fdff;border-top: solid 1px #e6f1f7;">
                     <% for (let order of orders) { %>
                           <% if (order.supplierId === business.supplierId && order.businessId === business.businessId) { %>
-                            <div class="row orderRow" style="margin-top: 5px;">
+                            <% if (order.quantity === "" || order.quantity === "0") { %>
+                                <div class="row orderRow" style="background-color: #ff9d9d;border: solid 1px #d38787">
+                            <% } else { %>
+                                <div class="row orderRow" style="background-color: #c6e9ce;border: solid 1px #b4cfb4;">
+                            <% } %>
                               <div class="col-md-4">
+                              <% if (order.quantity === "" || order.quantity === "0") { %>
+                                 <i class="fa fa-minus" aria-hidden="true"></i> name : <strong style="text-transform: uppercase"> <%= order.order_name %></strong>
+                              <% } else { %>
                                  name : <strong style="text-transform: uppercase"> <%= order.order_name %></strong>
+                              <% } %>
                               </div>
                               <div class="col-md-3">
                                 quantity : <strong><%= order.quantity %></strong>
@@ -53,9 +60,7 @@
                             </div>
                       <% } %>
                     <% } %>
-                      <div class="row" style="display: flex;justify-content: center;margin-top:20px">
-                        <button type="button" class="btn btn-primary active">Confirm Orders</button>
-                      </div>
+
                 </div>
               </div>
             </div>

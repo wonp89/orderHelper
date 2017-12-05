@@ -15,6 +15,7 @@ const businessView = async (currentUser, req, res, next) => {
     .from('users')
     .innerJoin('businessRelationship', 'users.id', 'businessRelationship.supplierId')
 
+
     const orders = await kx
     .select()
     .from('orders')
@@ -80,12 +81,22 @@ const BusinessesController = {
       .where({supplierId: currentUser.id})
       .innerJoin('users', 'users.id', 'businessRelationship.businessId')
 
-      const orders = await kx
+      const businessOrders = await kx
       .select()
       .from('orders')
       .where({businessId: currentUser.id})
 
-        res.render('businesses/edit', {business, orders, supplier})
+      const supplierOrders = await kx
+      .select()
+      .from('orders')
+      .where({supplierId: currentUser.id})
+
+      const supplierRelationship = await kx
+      .select('*', 'users.id as userId')
+      .from('users')
+      .innerJoin('businessRelationship', 'users.id', 'businessRelationship.supplierId')
+
+        res.render('businesses/edit', {business, businessOrders, supplierOrders, supplier, supplierRelationship})
       } catch (error) {
         next(error)
       }

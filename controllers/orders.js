@@ -34,7 +34,7 @@ const OrdersController = {
       .update(order)
       .where({id})
       .then(() => res.redirect(`/businesses/${supplierId}/edit`))
-      .catch(error => next(error))
+      .then(d => console.log(d))
     }
 
 }

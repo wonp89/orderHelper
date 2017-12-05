@@ -1,67 +1,71 @@
 <%# google map script%>
-    <script>
-      function initMap(){
-        // Map options
-        var options = {
-          zoom:11,
-          center:{lat:lat,lng:lng}
-        }
-        // New map
-        var map = new google.maps.Map(document.getElementById('map'), options);
-        // Array of markers
-        var markers =
-          {
-            coords:{lat:lat,lng:lng},
-            content:restaurant
-          }
-        addMarker(markers);
-        // Add Marker Function
-        function addMarker(props){
-          var marker = new google.maps.Marker({
-            position:props.coords,
-            map:map,
-          });
-          // Check content
-          if(props.content){
-            var infoWindow = new google.maps.InfoWindow({
-              content:props.content
-            });
-            marker.addListener('click', function(){
-              infoWindow.open(map, marker);
-            });
-          }
-        }
-      }
-
-    // <%# ------------- Geocode map script ----------------- %>
-    //------- restaurant -------//
-    var restaurantAddress = document.getElementById('restaurantAddress')
-    var restaurant = restaurantAddress.textContent;
-
-    geocode();
-    function geocode() {
-      var location = restaurant
-      axios.get('https://maps.googleapis.com/maps/api/geocode/json',{
-        params:{
-          address:location,
-          key:'AIzaSyAhjGo8hHwbT5e9MJuFV2JGDWuJnwAO6a8'
-        }
-      })
-      .then(function(response){
-        console.log(response);
-        lat = response.data.results[0].geometry.location.lat;
-        lng = response.data.results[0].geometry.location.lng;
-        initMap()
-      })
-      .catch(function(error){
-        console.log(error)
-      })
+<script>
+function initMap(){
+  // Map options
+  var options = {
+    zoom:11,
+    center:{lat:lat,lng:lng}
+  }
+  // New map
+  var map = new google.maps.Map(document.getElementById('map'), options);
+  // Array of markers
+  var markers =
+    {
+      coords:{lat:lat,lng:lng},
+      content:restaurant
     }
-    </script>
-    <script async defer
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDv0Vws_lZopAqiH44JAGqOBLpCQHdiSjQ&callback=initMap">
-    </script>
+  addMarker(markers);
+  // Add Marker Function
+  function addMarker(props){
+    var marker = new google.maps.Marker({
+      position:props.coords,
+      map:map,
+    });
+    // Check content
+    if(props.content){
+      var infoWindow = new google.maps.InfoWindow({
+        content:props.content
+      });
+      marker.addListener('click', function(){
+        infoWindow.open(map, marker);
+      });
+    }
+  }
+}
 
+// <%# ------------- Geocode map script ----------------- %>
+//------- restaurant -------//
+var restaurantAddress = document.getElementById('restaurantAddress')
+var restaurant = restaurantAddress.textContent;
 
+geocode();
+function geocode() {
+var location = restaurant
+axios.get('https://maps.googleapis.com/maps/api/geocode/json',{
+  params:{
+    address:location,
+    key:'AIzaSyAhjGo8hHwbT5e9MJuFV2JGDWuJnwAO6a8'
+  }
+})
+.then(function(response){
+  console.log(response);
+  lat = response.data.results[0].geometry.location.lat;
+  lng = response.data.results[0].geometry.location.lng;
+  initMap()
+})
+.catch(function(error){
+  console.log(error)
+})
+}
+</script>
+<script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDv0Vws_lZopAqiH44JAGqOBLpCQHdiSjQ&callback=initMap">
+</script>
+
+    <div class="footer">
+      <p>Copyright © 2017 Won Park</p>
+    </div>
+
+    <script type="text/javascript" src="js/main.js"></script>
   </body>
 </html>

@@ -1,6 +1,6 @@
 <%- include('../partials/header') %>
 <br>
-  <section class="businesses-list row justify-content-center" style="width: 80%;margin: auto;" id="indexSection">
+  <section class="businesses-list row justify-content-center" id="indexSection">
           <%# <div class="plus" style="width: 100%; text-align: center">Click to Create</div>%>
 
       <!-- Create Business-->
@@ -21,9 +21,10 @@
                       <!-- Inside Modal : supplier and day selector -->
                         <form class="form-inline" action="/businesses/supplierList" method='POST'>
                           <div class="row" style="margin: auto;" id="business_form">
-                            <select name="supplierId" class="spplierSelector">
+                            <select name="supplierId" class="supplierSelector">
+                                  <option> Select Supplier </option>
                                 <% for (let supplier of suppliers) { %>
-                                  <option value=<%= supplier.id %>><%= supplier.businessName %></option>
+                                  <option class="supplierLists" value=<%= supplier.id %>><%= supplier.businessName %></option>
                                 <% } %>
                             </select>
                             <div class="form-group">
@@ -32,7 +33,7 @@
                                 class="form-control"
                                 type="text"
                                 name="day"
-                                placeholder="Add Days"
+                                placeholder="Add Delivery Days"
                               >
                             </div>
                             <button type="submit" class="btn btn-primary addButton">Add</button>
@@ -50,30 +51,25 @@
 
         <% for (let supplier of businessSuppliers) { %>
           <% if (supplier.businessId === currentUser.id) { %>
-
-            <div class="col-md-10 list_show names" style="margin-top: 20px">
-              <div class="card businessRow">
+            <div class="col-md-10 list_show names">
+              <% if (supplier.confirm === true) { %>
+              <div class="card businessRow animated fadeInDown" style="background-color: #ccf0d5;">
+              <% } else { %>
+              <div class="card businessRow animated fadeInDown">
+              <% }  %>
                 <div class="card-header" style="padding-bottom: 7px">
-
                       <div class="row">
                         <div class="col-md-5">
-                          <h5 style="display: inline-block;text-transform: uppercase;"><%= supplier.businessName %></h5>
+                          <h5 class="supplierName" style="display: inline-block;text-transform: uppercase;"><%= supplier.businessName %></h5>
                         </div>
                         <div class="col-md-7">
                                   <h5 style="display: inline-block;text-transform: uppercase;"><%= supplier.day %></h5>
-                          <div class="dropdown" style="float:right; display:none">
-                           <button class="btn btn-secondary dropdown-toggle"
-                                   type="button" id="dropdownMenu1" data-toggle="dropdown"
-                                   aria-haspopup="true" aria-expanded="false" style="padding:0">
-                             Menu
-                           </button>
-                           <div class="dropdown-menu" aria-labelledby="dropdownMenu1" style="text-align: center;">
-                              <a class="dropdown-item" href="/businesses/<%= supplier.id %>/edit">edit</a>
-                           </div>
-                          </div>
+                                  <% if (supplier.confirm === true) { %>
+                                    <i class="fa fa-circle" aria-hidden="true" style="float:right;color:red"></i>
+                                  <% } %>
+                              <a class="checkOrder" href="/businesses/<%= supplier.id %>/edit">Edit Order</a>
                         </div>
                       </div>
-
                 </div>
               </div>
             </div>
@@ -81,7 +77,7 @@
             <div class="col-md-10" style="display: none;">
               <div class="card">
 
-              <!-- //form group -->
+              <!-- form group -->
               <div class="row" style="padding-top: 15px;margin: auto;">
                 <div class="col-md-4">
                     <form action="/businesses/<%= supplier.supplierId %>/orders" method="POST">
@@ -128,33 +124,39 @@
                 </div>
               </div>
 
-
-                <div class="card-header list_dropdown" style="padding-bottom: 7px; background-color: #f9fdff;border-top: solid 1px #e6f1f7;">
+<%# -------------------------- ORDER SECTION -------------------------- %>
+              <div class="card-header list_dropdown">
                     <% for (let order of orders) { %>
                       <% if (order.supplierId === supplier.supplierId && order.businessId === supplier.businessId) { %>
-                            <div class="row" style="margin-top: 5px;">
+                        <% if (order.quantity === "" || order.quantity === "0") { %>
+                        <div class="row orderRow" style="background-color: #ff9d9d;border: solid 1px #d38787">
+                        <% } else { %>
+                        <div class="row orderRow" style="background-color: #c6e9ce;border: solid 1px #b4cfb4;">
+                        <% } %>
                               <div class="col-md-4">
-                                 name : <strong style="text-transform: uppercase"> <%= order.order_name %></strong>
+                                  <% if (order.quantity === "" || order.quantity === "0") { %>
+                                     <i class="fa fa-minus" aria-hidden="true"></i> name : <strong style="text-transform: uppercase"> <%= order.order_name %></strong>
+                                  <% } else { %>
+                                     name : <strong style="text-transform: uppercase"> <%= order.order_name %></strong>
+                                  <% } %>
                               </div>
-                              <div class="col-md-3">
-                                quantity : <strong><%= order.quantity %></strong>
-                              </div>
+                                  <div class="col-md-3">
+                                    quantity : <strong><%= order.quantity %></strong>
+                                  </div>
                               <div class="col-md-5">
                               <%  if (order['message']) { %>
-                                  <div class="message">&nbsp&nbsp<i class="fa fa-hand-o-right" aria-hidden="true" style="color: #ffc9c9; font-size: 20px;"></i>
+                                  <div class="message">&nbsp&nbsp<i class="fa fa-hand-o-right" aria-hidden="true" style="color: #ff9d9d; font-size: 20px;"></i>
                                       &nbsp<%= order.message %>
                                   </div>
                               <% } %>
                               </div>
                             </div>
-                          <% } %>
+                        <% } %>
                     <% } %>
-                      <div class="row" style="display: flex;justify-content: center;margin-top:20px">
-                        <button type="button" class="btn btn-primary active">Confirm Orders</button>
-                      </div>
+                  </div>
+
                 </div>
               </div>
-            </div>
           <% } %>
         <% } %>
 

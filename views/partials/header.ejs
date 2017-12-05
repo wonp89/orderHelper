@@ -3,28 +3,28 @@
   <head>
     <meta charset="utf-8">
     <title>Order Helper</title>
+
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/animate.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script defer src="/js/popper.min.js" charset="utf-8"></script>
     <script defer src="/js/bootstrap.min.js" charset="utf-8"></script>
-    <script type="text/javascript" src="js/main.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
   </head>
   <body>
 
     <div class="row navBar">
-      <nav class="navbar navbar-light bg-faded justify-content-between">
+      <nav class="navbar navbar-light bg-faded justify-content-between" style="margin-left: 20px;">
       <a class="navbar-brand"  href="/">Home</a>
       <form class="form-inline">
-        <input class="form-control mr-sm-2" id="businessSearch" type="text" placeholder="Search"  onkeyup="myFunction()">
+        <input class="form-control mr-sm-2" id="businessSearch" type="text" placeholder="Search Business"  onkeyup="search()">
       </form>
     </nav>
 
     <%# Sign in & Sign up%>
-            <ul class="ml-auto"style="margin-right: 20px; margin-top: 10px">
+            <ul class="ml-auto"style="margin-right: 30px; margin-top: 10px">
              <% if (currentUser) { %>
                <li class="nav-item" style="display: inline-block">
                 <span class="navbar-text"><strong>Hello <%= currentUser.businessName %></strong></span>

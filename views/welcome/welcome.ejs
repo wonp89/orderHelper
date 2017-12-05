@@ -1,11 +1,19 @@
 <%- include('../partials/header') %>
 <div class="welcome">
-    <div class="container">
+    <div class="container welcomeContainer">
             <br>
-            <form class="form-inline beginButton" action="/businesses" method="GET">
-                  <input class="btn btn-outline-primary" type="submit" value="Begin">
+            <p style="float: right;margin-left: 5px;border-top:solid;">ORDER HELPER</p>
+            <form class="form-inline beginButtonForm  animated fadeInDown" action="/businesses" method="GET">
+                  <input class="beginButton" type="submit" value="Begin">
             </form>
-
+    </div>
+    <div class="laptopImage">
+    </div>
+    <div class="content" style="display: none">
+      <i class="fa fa-quote-left" aria-hidden="true"></i><br>
+      <h4 class="display-5">Welcome to Order Helper!</h4>
+      <p class="contentInside">This is the website that helps users to create and share  the order lists to improve communication between restaurant owners and suppliers. Features include creating, editing, and sending orders. Click "Begin" to create your lists.</p>
+      <i class="fa fa-window-minimize fa-5" aria-hidden="true" style="color:#c23c3b"></i>
     </div>
 </div>
 <%- include('../partials/footer') %>

@@ -1,38 +1,99 @@
+/* ----------- Welcom Page css ---------------- */
 .navBar {
-   /*background-color: #c6eef2;*/
    background-image: url("/images/welcome2.png");
    background-size: 100%;
+   padding-bottom:20px;
+   border-bottom: solid 4px #d8d6ff;
 }
+
+/*body {
+
+}*/
 
 .welcome {
-   /*background-image: url("/images/food.png");
-   background-size: 100%;*/
-   padding:150px;
+  padding:140px;
+  padding-top: 100px;
 }
 
-.businessRow:hover {
-   background-color: #c6eef2;
+.laptopImage {
+  height: 90px;
+  text-align: center;
+  width:100%;
+  background-image: url("/images/laptop.png");
+  filter: grayscale(30%);
 }
 
-/* welcome page button*/
-.beginButton {
+.content {
+  width:100%;
+  background-color: #e9e9ea;
+  margin-top: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: center;
+  border-top: solid 3px #c23c3b;
+}
+
+.contentInside {
+  margin: 10px
+}
+
+/*flash message for user*/
+
+.alert-dismissible.fade.show {
+    padding:0;
+    text-align: center;
+    width: 70%;
+    margin: auto;
+    margin-top: 5px;
+    background-color: white;
+}
+
+.beginButtonForm {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
+  width: 100%;
+  padding:50px;
+  background-image: url("/images/welcomeBackground.png");
+  background-repeat: no-repeat;
+  background-color:#c13b3b;
+}
+
+.beginButton {
+  background-color: #fbd54a;
+  color: #c23c3b;
+  padding-right: 50px;
+  padding-left: 50px;
+  border:solid 10px #fbd54a !important;
+  font-size:20px;
+}
+
+.beginButton:hover {
+  background-color:#ffd400;
+  border:solid 10px #ffd400 !important;
+}
+
+.welcomeContainer {
+  background-color: #ffd400;
+}
+
+/* --------------- Index Page ------------- */
+#indexSection {
+  width: 80%;
+  margin: auto;
+  padding-bottom:100px;
 }
 
 /*index message*/
 .message {
-  border: solid 2px #d4e7f2;
+  margin:2px;
 	background-color: white;
-  margin: auto;
-  margin-bottom: 10px;
   border-radius: 4px;
 }
 
-#editForm {
+.list_dropdown {
+  background-color: #f9fdff;
   border: solid 1px #dfdfdf;
-  border-radius: 5px;
-  padding-top: 20px;
+  padding-top:0;
 }
 
 .addButton {
@@ -42,15 +103,80 @@
   margin-left: 10px;
 }
 
+.checkOrder {
+ float:right;
+ display:none;
+ margin-right: 5px
+}
+
+.orderRow {
+  margin-top: 10px;
+  border-radius: 3px;
+}
+
+.names {
+  margin-top: 20px;
+}
+
+.businessRow:hover {
+   background-color: #f5fffd
+}
+
+/* --------------- edit form -------------- */
+.orderEditView {
+  padding-top: 8px;
+  border-bottom: solid 1px #e6e6e6;
+  margin: 1px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+#editForm {
+  border: solid 1px #dfdfdf;
+  border-radius: 5px;
+  padding-top: 20px;
+}
+
+.deleteRelationship {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  background-color:#fcdbdb;
+  border-top: solid 2px #f39c9c;
+  border-bottom: solid 2px #f39c9c;
+  padding-top: 5px;
+  padding-bottom: 5px;
+
+}
+
+.restaurantInfo {
+  background-color: #9a2f2f;
+  color: white;
+  padding: 20px;
+}
+
+.mapInfo {
+  background-color: #f4f4f4;
+  padding: 20px;
+  border:solid #9a2f2f;
+}
+
 #map {
     height:400px;
     width:400px;
     margin: auto;
+    border:solid 1px #9a2f2f;
 }
 
-.orderRow {
-  margin-top: 5px;
-  padding-top: 10px;
-  border: solid 2px #ecf3f8;
-  background-color: white;"
+/* ------------ footer ----------- */
+.footer {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   background-image: url("/images/brooke-lark-295590.png");
+   color: black;
+   text-align: right;
+   padding: 10px;
+   border-top: solid 4px #d8d6ff;
 }

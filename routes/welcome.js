@@ -57,6 +57,9 @@ session.delete('/', SessionsController.destroy)
 root.use('/businesses', businessRelationship)
 businessRelationship.post('/supplierList', BusinessRelationshipController.supplierList)
 businessRelationship.delete('/:id', BusinessRelationshipController.destroy)
+//------------- Business Relationship: Confirm -----------//
+businessRelationship.patch('/send/:id', BusinessRelationshipController.sendOrder)
+businessRelationship.patch('/confirm/:id', BusinessRelationshipController.confirmOrder)
 
 
 module.exports = root;

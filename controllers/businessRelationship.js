@@ -2,16 +2,39 @@ const kx = require('../db/connection')
 
 const BusinessRelationshipController = {
 
+//------------------- Create Relationship ----------------//
 supplierList (req, res, next) {
     const {supplierId, day} = req.body;
     const {currentUser} = req;
 
     kx
-     .insert({supplierId: supplierId, businessId: currentUser.id, day})
+     .insert({supplierId: supplierId, businessId: currentUser.id, day, confirm: false})
      .into('businessRelationship')
      .then(() => res.redirect('/businesses'))
   },
 
+  // --------------------- Send & Confirm Order ------------------ //
+  sendOrder (req, res, next) {
+    const {id} = req.params
+
+    kx('businessRelationship')
+    .update({confirm: true})
+    .where({id})
+    .then(() => res.redirect('/businesses'))
+    .catch(error => next(error))
+  },
+
+  confirmOrder (req, res, next) {
+    const {id} = req.params
+
+    kx('businessRelationship')
+    .update({confirm: false})
+    .where({id})
+    .then(() => res.redirect('/businesses'))
+    .catch(error => next(error))
+  },
+
+  // --------------------- Destroy Relationship ------------------ //
 destroy (req, res, next) {
       const {id} = req.params
 
@@ -22,7 +45,6 @@ destroy (req, res, next) {
          .then(() => res.redirect('/businesses'))
          .catch(error => next(error))
     }
-}
-
+  }
 
 module.exports = BusinessRelationshipController
