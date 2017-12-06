@@ -1,53 +1,52 @@
 <%- include('../partials/header') %>
 <br>
-  <section class="businesses-list row justify-content-center" id="indexSection">
+<section class="businesses-list row justify-content-center" id="indexSection">
           <%# <div class="plus" style="width: 100%; text-align: center">Click to Create</div>%>
 
       <!-- Create Business-->
-          <div class="container" style="text-align: center">
-              <!-- Trigger the modal with a button -->
-              <h2>My Suppliers</h2>
-              <a href="#" data-toggle="modal" data-target="#myModal">Add Supplier</a>
-              <!-- Modal -->
-              <div class="modal fade" id="myModal" role="dialog">
-                <div class="modal-dialog">
-                  <!-- Modal content-->
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <button type="button" class="close" data-dismiss="modal">&times;</button>
-                      <h4 class="modal-title">Add a Supplier</h4>
-                    </div>
-                    <div class="modal-body">
-                      <!-- Inside Modal : supplier and day selector -->
-                        <form class="form-inline" action="/businesses/supplierList" method='POST'>
-                          <div class="row" style="margin: auto;" id="business_form">
-                            <select name="supplierId" class="supplierSelector">
-                                  <option> Select Supplier </option>
-                                <% for (let supplier of suppliers) { %>
-                                  <option class="supplierLists" value=<%= supplier.id %>><%= supplier.businessName %></option>
-                                <% } %>
-                            </select>
-                            <div class="form-group">
-                              <input
-                                style="margin-left: 10px"
-                                class="form-control"
-                                type="text"
-                                name="day"
-                                placeholder="Add Delivery Days"
-                              >
-                            </div>
-                            <button type="submit" class="btn btn-primary addButton">Add</button>
-                          </div>
-                        </form>
-                      <!-- -->
-                    </div>
-                    <div class="modal-footer">
-                    </div>
-                  </div>
-                </div>
-              </div>
+   <div class="container" style="text-align: center">
+      <!-- Trigger the modal with a button -->
+      <h2 style="font-family: 'Poppins', sans-serif;">My Suppliers</h2>
+      <a href="#" data-toggle="modal" data-target="#myModal">Add Supplier</a>
+      <!-- Modal -->
+      <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Add a Supplier</h4>
             </div>
-
+            <div class="modal-body">
+              <!-- Inside Modal : supplier and day selector -->
+                <form class="form-inline" action="/businesses/supplierList" method='POST'>
+                  <div class="row" style="margin: auto;" id="business_form">
+                    <select name="supplierId" class="supplierSelector">
+                          <option> Select Supplier </option>
+                        <% for (let supplier of suppliers) { %>
+                          <option class="supplierLists" value=<%= supplier.id %>><%= supplier.businessName %></option>
+                        <% } %>
+                    </select>
+                    <div class="form-group">
+                      <input
+                        style="margin-left: 10px"
+                        class="form-control"
+                        type="text"
+                        name="day"
+                        placeholder="Add Delivery Days"
+                      >
+                    </div>
+                    <button type="submit" class="btn btn-primary addButton">Add</button>
+                  </div>
+                </form>
+              <!-- -->
+            </div>
+            <div class="modal-footer">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
         <% for (let supplier of businessSuppliers) { %>
           <% if (supplier.businessId === currentUser.id) { %>
@@ -60,17 +59,20 @@
                 <div class="card-header" style="padding-bottom: 7px">
                       <div class="row">
                         <div class="col-md-5">
+                        <i class="fa fa-briefcase" aria-hidden="true"></i>
                           <h5 class="supplierName" style="display: inline-block;text-transform: uppercase;"><%= supplier.businessName %></h5>
                         </div>
                         <div class="col-md-7">
-                                  <h5 style="display: inline-block;text-transform: uppercase;"><%= supplier.day %></h5>
-                                  <% if (supplier.confirm === true) { %>
-                                    <i class="fa fa-circle" aria-hidden="true" style="float:right;color:red"></i>
-                                  <% } %>
-                              <a class="checkOrder" href="/businesses/<%= supplier.id %>/edit">Edit Order</a>
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                          <h5 style="display: inline-block;text-transform: uppercase;"><%=supplier.day %></h5>
+                            <% if (supplier.confirm === true) { %>
+                              <i class="fa fa-circle" aria-hidden="true"style="float:right;color:red"></i>
+                            <% } %>
+                          <a class="checkOrder" href="/businesses/<%= supplier.id %>/edit">Edit Order</a>
                         </div>
                       </div>
                 </div>
+                <div class="businessRowBottomDeco"></div>
               </div>
             </div>
 
@@ -117,7 +119,7 @@
                           <input
                           class="btn btn-outline-primary"
                           type="submit"
-                          value="Submit"
+                          value="Create"
                           style="width: 200px;margin-bottom: 15px"
                           >
                     </form>
@@ -159,9 +161,7 @@
               </div>
           <% } %>
         <% } %>
-
-
-  </section>
+</section>
 
 
 <%- include('../partials/footer') %>

@@ -63,7 +63,7 @@ const BusinessesController = {
     }
   },
 
-  //>>>>>>>>>>>>--------------------------- Show + Edit Page --------------------------<<<<<<<<<<//
+  //-------------------------------- Show + Edit Page -------------------------------//
 
   async edit (req, res, next) {
     const {id} = req.params

@@ -1,3 +1,4 @@
+
 /* ----------- Welcom Page css ---------------- */
 .navBar {
    background-image: url("/images/welcome2.png");
@@ -5,10 +6,10 @@
    padding-bottom:20px;
    border-bottom: solid 4px #d8d6ff;
 }
-
-/*body {
-
-}*/
+body {
+background-image:  url("/images/brookeBackground.png");
+background-size: 100%;
+}
 
 .welcome {
   padding:140px;
@@ -96,6 +97,11 @@
   padding-top:0;
 }
 
+.businessRowBottomDeco {
+  height: 4px;
+  background-color:#e5e9ee;
+}
+
 .addButton {
   margin: auto;
   margin-top: 15px;
@@ -135,6 +141,7 @@
   border: solid 1px #dfdfdf;
   border-radius: 5px;
   padding-top: 20px;
+  background-color: white;
 }
 
 .deleteRelationship {
@@ -142,8 +149,6 @@
   justify-content: center;
   margin-bottom: 20px;
   background-color:#fcdbdb;
-  border-top: solid 2px #f39c9c;
-  border-bottom: solid 2px #f39c9c;
   padding-top: 5px;
   padding-bottom: 5px;
 
@@ -177,6 +182,6 @@
    background-image: url("/images/brooke-lark-295590.png");
    color: black;
    text-align: right;
-   padding: 10px;
+   padding: 13px;
    border-top: solid 4px #d8d6ff;
 }

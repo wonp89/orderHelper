@@ -12,13 +12,13 @@
               <div class="card">
                 <div class="card-header d-flex align-items-center" style="display:flex; justify-content:center;">
                 <% for (let supplier of supplierRelationship) { %>
-                  <% if(supplier.supplierId === business.supplierId) { %>
-                    <%= supplier.businessName %>
+                  <% if(supplier.supplierId === business.supplierId && supplier.businessId === business.businessId) { %>
+                    <strong style="font-family: 'Ubuntu', sans-serif;"><%= supplier.businessName %></strong>
                   <% } %>
                 <% } %>
                 </div>
                 <div class="card-body">
-                  <h4>ORDERS</h4>
+                  <h4 style="font-family: 'Ubuntu', sans-serif;">ORDERS</h4>
                     <% for (let order of businessOrders) { %>
                       <% if (business.businessId === order.businessId && business.supplierId === order.supplierId) { %>
                         <%#----------- empty quantity clarification -------------------%>
@@ -30,15 +30,15 @@
                           <div class="col-md-4">
                             <p>
                         <% if (order.quantity === "" || order.quantity === "0") { %>
-                            <i class="fa fa-minus" aria-hidden="true"></i> Order Name: <%= order.order_name %>
+                            <i class="fa fa-minus" aria-hidden="true"></i> Order Name: <strong><%= order.order_name %></strong>
                         <% } else { %>
-                            Order Name: <%= order.order_name %>
+                            Order Name: <strong><%= order.order_name %></strong>
                         <% } %>
                             </p>
                           </div>
                           <div class="col-md-4">
                             <p>
-                              Quantity: <%= order.quantity %>
+                              Quantity: <strong><%= order.quantity %></strong>
                             </p>
                           </div>
                           <div class="col-md-4">
@@ -65,7 +65,7 @@
 <%# ---------------------------------- EDIT ORDERS ------------------------------------ %>
           <div class="col-lg-5" id="editForm">
               <div class="container">
-                    <div style="margin-bottom: 10px;"><strong>Edit Orders</strong></div>
+                    <div style="margin-bottom: 10px;font-family: 'Ubuntu', sans-serif;"><strong>Edit Orders</strong></div>
                     <% for (let order of businessOrders) { %>
                         <% if (business.businessId === order.businessId && business.supplierId === order.supplierId) { %>
                       <form
@@ -111,13 +111,13 @@
             <% if (business.confirm === false) { %>
             <form class="form-inline"  style="width:100%; padding-top:20px" action="/businesses/send/<%= business.id %>?_method=PATCH" method='POST'>
               <div class="row" style="margin: auto;">
-                <button type="submit" class="btn btn-primary active" style="width: 160px;">Send Orders</button>
+                <button type="submit" class="btn btn-primary active" style="width: 160px;">Send Order</button>
               </div>
             </form>
             <% } else { %>
             <form class="form-inline"  style="width:100%; padding-top:20px" action="/businesses/confirm/<%= business.id %>?_method=PATCH" method='POST'>
               <div class="row" style="margin: auto">
-                <button type="submit" class="btn btn-outline-success active">Order Delivered!</button>
+                <button type="submit" class="btn btn-outline-success active">Order Successfully Delivered!</button>
               </div>
             </form>
            <% } %>
@@ -127,42 +127,40 @@
                   <input class="btn btn-outline-primary" type="submit" value="Go Back">
             </form>
 
-
       <% } %>
-
 
 <%# ------------>>>>>>>>>>>>>>>> SUPPLIER VIEW WITH GOOGLE MAP <<<<<<<<<<<<<<<<<--------------- %>
     <% if (currentUser.userType == "supplier") { %>
-      <div class="row">
+      <div class="row" style="box-shadow:7px 7px 7px #888888">
         <div class="col-md-6 restaurantInfo">
           <div class="animated fadeIn">
-          <% for (let res of supplier) { %>
-              <% if (business.businessId === res.businessId) { %>
-                <h1 class="restaurantName"><i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp<%= res.businessName %></h1>
-                <div id="restaurantEmail"><strong><i class="fa fa-envelope-o" aria-hidden="true"></i>&nbsp<%= res.email %></strong></div>
-                <div id="restaurantAddress"><strong><i class="fa fa-home" aria-hidden="true"></i>&nbsp</strong><%=  res.street %>&nbsp<%=  res.city %>&nbsp<%=  res.province %>&nbsp<%=  res.postal %></div>
-              <% } %>
-          <% } %>
+            <% for (let res of supplier) { %>
+                <% if (business.businessId === res.businessId) { %>
+                  <h1 class="restaurantName" style="font-family: 'Ubuntu', sans-serif;"><i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp<%= res.businessName %></h1>
+                  <div id="restaurantEmail" style="font-family: 'Ubuntu', sans-serif;"><strong><i class="fa fa-envelope-o" aria-hidden="true"></i>&nbsp<%= res.email %></strong></div>
+                  <div id="restaurantAddress" style="font-family: 'Ubuntu', sans-serif;"><strong><i class="fa fa-home" aria-hidden="true"></i>&nbsp</strong><%=  res.street %>&nbsp<%=  res.city %>&nbsp<%=  res.province %>&nbsp<%=  res.postal %></div>
+                <% } %>
+            <% } %>
           <hr style="border: 1px solid #ccc;">
-          Orders
-          <% for (let order of supplierOrders) { %>
-              <% if (business.businessId === order.businessId && business.supplierId === order.supplierId) { %>
-              <ul>
-                  <li id="supplierEditOrderList"><%= order.order_name %> : <%= order.quantity %></li>
-              </ul>
-              <% } %>
-          <% } %>
+          Order Detail
+            <% for (let order of supplierOrders) { %>
+                <% if (business.businessId === order.businessId && business.supplierId === order.supplierId) { %>
+                <ul>
+                    <li style="display:inline-block"><%= order.order_name %> : <p style="display:inline-block" class="deliveryOrderQuantity"><%= order.quantity %></p></li>
+                </ul>
+                <% } %>
+            <% } %>
           <% if (business.confirm === true) { %>
             <form class="form-inline"  style="width:100%; margin-top:20px" action="/businesses/confirm/<%= business.id %>?_method=PATCH" method='POST'>
               <div class="row animated" style="margin: auto">
-                <button type="submit" class="btn btn-outline-success active">Order Delivered!</button>
+                <button type="submit" class="btn btn-outline-success active">Order Successfully Delivered!</button>
               </div>
             </form>
           <% } %>
           </div>
         </div>
         <div class="col-md-6 mapInfo">
-          <h4 style="text-align: center;">Location</h4>
+          <h4 style="text-align: center;font-family: 'Ubuntu', sans-serif;">Location</h4>
           <div id="map"></div>
         </div>
       </div>
@@ -172,15 +170,12 @@
               <input class="btn btn-outline-primary" type="submit" value="Go Back">
         </form>
     <% } %>
-    <br>
-    <br>
-    <br>
-    <br>
+      <br>
+      <br>
+      <br>
+      <br>
 
       </div>
 </section>
-
-
-
 
 <%- include('../partials/footer') %>
