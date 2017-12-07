@@ -60,6 +60,7 @@ businessRelationship.delete('/:id', BusinessRelationshipController.destroy)
 //------------- Business Relationship: Confirm -----------//
 businessRelationship.patch('/send/:id', BusinessRelationshipController.sendOrder)
 businessRelationship.patch('/confirm/:id', BusinessRelationshipController.confirmOrder)
+businessRelationship.patch('/orderChecked/:id', BusinessRelationshipController.orderChecked)
 
 
 module.exports = root;

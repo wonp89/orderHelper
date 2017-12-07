@@ -1,13 +1,12 @@
 <%- include('../partials/header') %>
 <br>
 <section class="businesses-list row justify-content-center" id="indexSection">
-          <%# <div class="plus" style="width: 100%; text-align: center">Click to Create</div>%>
 
       <!-- Create Business-->
    <div class="container" style="text-align: center">
       <!-- Trigger the modal with a button -->
-      <h2 style="font-family: 'Poppins', sans-serif;">My Suppliers</h2>
-      <a href="#" data-toggle="modal" data-target="#myModal">Add Supplier</a>
+      <h2 style="font-family: 'Poppins', sans-serif;margin-bottom:.8rem">My Suppliers</h2>
+      <a href="#" data-toggle="modal" data-target="#myModal" id="addSupplier">Supplier <i class="fa fa-plus-square" aria-hidden="true"></i></a>
       <!-- Modal -->
       <div class="modal fade" id="myModal" role="dialog">
         <div class="modal-dialog">
@@ -65,10 +64,10 @@
                         <div class="col-md-7">
                         <i class="fa fa-calendar" aria-hidden="true"></i>
                           <h5 style="display: inline-block;text-transform: uppercase;"><%=supplier.day %></h5>
-                            <% if (supplier.confirm === true) { %>
-                              <i class="fa fa-circle" aria-hidden="true"style="float:right;color:red"></i>
-                            <% } %>
-                          <a class="checkOrder" href="/businesses/<%= supplier.id %>/edit">Edit Order</a>
+                          <% if (supplier.orderChecked === true) { %>
+                            <i class="fa fa-paper-plane orderSendAndReceived" style="margin-left:5px;" aria-hidden="true"></i>
+                          <% } %>
+                          <a class="btn-info checkOrder" style="padding:5px;border-radius:5px;" href="/businesses/<%= supplier.id %>/edit">Edit / Send Order</a>
                         </div>
                       </div>
                 </div>

@@ -3,7 +3,7 @@
 .navBar {
    background-image: url("/images/welcome2.png");
    background-size: 100%;
-   padding-bottom:20px;
+   padding-bottom:10px;
    border-bottom: solid 4px #d8d6ff;
 }
 body {
@@ -109,10 +109,19 @@ background-size: 100%;
   margin-left: 10px;
 }
 
+#addSupplier {
+  color: white;
+  background-color: #1579f6;
+  padding: 6px;
+  border-radius: 3px;
+  text-decoration: none;
+}
+
 .checkOrder {
  float:right;
  display:none;
- margin-right: 5px
+ margin-right: 5px;
+ text-decoration: none !important;
 }
 
 .orderRow {
@@ -126,6 +135,12 @@ background-size: 100%;
 
 .businessRow:hover {
    background-color: #f5fffd
+}
+
+.orderSendAndReceived {
+  float:right;
+  color: #df2525;
+  font-size: 25px;
 }
 
 /* --------------- edit form -------------- */
@@ -145,19 +160,22 @@ background-size: 100%;
 }
 
 .deleteRelationship {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-  background-color:#fcdbdb;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  margin-right: 20px;
+}
 
+/* check restaurant view*/
+.restaurantInfoBox {
+  height: 100%;
+  width: 100%;
+  border: solid 2px white;
+  padding: 20px;
 }
 
 .restaurantInfo {
   background-color: #9a2f2f;
   color: white;
   padding: 20px;
+  border-right: solid 3px white;
 }
 
 .mapInfo {
@@ -182,6 +200,6 @@ background-size: 100%;
    background-image: url("/images/brooke-lark-295590.png");
    color: black;
    text-align: right;
-   padding: 13px;
+   padding: 11px;
    border-top: solid 4px #d8d6ff;
 }

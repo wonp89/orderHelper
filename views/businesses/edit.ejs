@@ -4,16 +4,16 @@
 <section class="business-list row justify-content-center">
       <div class="container">
       <% if (business.businessId === currentUser.id) { %>
-        <form class="ml-auto deleteRelationship" action="/businesses/<%= business.id %>?_method=DELETE" method="POST">
-          <input type="submit" class="btn-danger" value="DELETE SUPPLIER">
-        </form>
           <div class="row">
             <div class="col-lg-7">
               <div class="card">
                 <div class="card-header d-flex align-items-center" style="display:flex; justify-content:center;">
                 <% for (let supplier of supplierRelationship) { %>
                   <% if(supplier.supplierId === business.supplierId && supplier.businessId === business.businessId) { %>
-                    <strong style="font-family: 'Ubuntu', sans-serif;"><%= supplier.businessName %></strong>
+                    <strong style="font-family: 'Ubuntu', sans-serif;"><i class="fa fa-briefcase" aria-hidden="true"></i> <%= supplier.businessName %></strong>
+                    <form class="ml-auto deleteRelationship" action="/businesses/<%= business.id %>?_method=DELETE" method="POST">
+                      <input type="submit" class="btn-danger" value="DELETE SUPPLIER">
+                    </form>
                   <% } %>
                 <% } %>
                 </div>
@@ -30,9 +30,9 @@
                           <div class="col-md-4">
                             <p>
                         <% if (order.quantity === "" || order.quantity === "0") { %>
-                            <i class="fa fa-minus" aria-hidden="true"></i> Order Name: <strong><%= order.order_name %></strong>
+                            <i class="fa fa-minus" aria-hidden="true"></i> Order Name: <strong style="text-transform: uppercase"><%= order.order_name %></strong>
                         <% } else { %>
-                            Order Name: <strong><%= order.order_name %></strong>
+                            Order Name: <strong style="text-transform: uppercase" class="order_nameEditSelect"><%= order.order_name %></strong>
                         <% } %>
                             </p>
                           </div>
@@ -65,7 +65,8 @@
 <%# ---------------------------------- EDIT ORDERS ------------------------------------ %>
           <div class="col-lg-5" id="editForm">
               <div class="container">
-                    <div style="margin-bottom: 10px;font-family: 'Ubuntu', sans-serif;"><strong>Edit Orders</strong></div>
+                    <h4 style="margin-bottom: 10px;font-family: 'Ubuntu', sans-serif;">Edit Orders</h4>
+                    <hr>
                     <% for (let order of businessOrders) { %>
                         <% if (business.businessId === order.businessId && business.supplierId === order.supplierId) { %>
                       <form
@@ -77,7 +78,7 @@
                           <div class="col-md-5">
                                 <input
                                   type="text"
-                                  class="form-control"
+                                  class="form-control order_nameEdit"
                                   name='order_name'
                                   value="<%= order.order_name %>"
                                 ></input>
@@ -111,13 +112,13 @@
             <% if (business.confirm === false) { %>
             <form class="form-inline"  style="width:100%; padding-top:20px" action="/businesses/send/<%= business.id %>?_method=PATCH" method='POST'>
               <div class="row" style="margin: auto;">
-                <button type="submit" class="btn btn-primary active" style="width: 160px;">Send Order</button>
+                <button type="submit" class="btn btn-primary active" style="width: 160px;">Send Order <i class="fa fa-paper-plane-o" aria-hidden="true"></i> </button>
               </div>
             </form>
             <% } else { %>
             <form class="form-inline"  style="width:100%; padding-top:20px" action="/businesses/confirm/<%= business.id %>?_method=PATCH" method='POST'>
               <div class="row" style="margin: auto">
-                <button type="submit" class="btn btn-outline-success active">Order Successfully Delivered!</button>
+                <button type="submit" class="btn btn-outline-success active">Order Successfully Delivered! <i class="fa fa-truck" aria-hidden="true"></i></button>
               </div>
             </form>
            <% } %>
@@ -133,27 +134,29 @@
     <% if (currentUser.userType == "supplier") { %>
       <div class="row" style="box-shadow:7px 7px 7px #888888">
         <div class="col-md-6 restaurantInfo">
+        <div class="restaurantInfoBox">
           <div class="animated fadeIn">
             <% for (let res of supplier) { %>
                 <% if (business.businessId === res.businessId) { %>
                   <h1 class="restaurantName" style="font-family: 'Ubuntu', sans-serif;"><i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp<%= res.businessName %></h1>
-                  <div id="restaurantEmail" style="font-family: 'Ubuntu', sans-serif;"><strong><i class="fa fa-envelope-o" aria-hidden="true"></i>&nbsp<%= res.email %></strong></div>
-                  <div id="restaurantAddress" style="font-family: 'Ubuntu', sans-serif;"><strong><i class="fa fa-home" aria-hidden="true"></i>&nbsp</strong><%=  res.street %>&nbsp<%=  res.city %>&nbsp<%=  res.province %>&nbsp<%=  res.postal %></div>
+                  <div id="restaurantEmail"><strong><i class="fa fa-envelope-o" aria-hidden="true"></i>&nbsp<%= res.email %></strong></div>
+                  <div id="restaurantAddress"><i class="fa fa-home" aria-hidden="true"></i>&nbsp<%=  res.street %>&nbsp<%=  res.city %>&nbsp<%=  res.province %>&nbsp<%=  res.postal %></div>
                 <% } %>
             <% } %>
           <hr style="border: 1px solid #ccc;">
-          Order Detail
+          <h4 style="font-family: 'Ubuntu', sans-serif;">Order Detail</h4>
+            <ul>
             <% for (let order of supplierOrders) { %>
                 <% if (business.businessId === order.businessId && business.supplierId === order.supplierId) { %>
-                <ul>
-                    <li style="display:inline-block"><%= order.order_name %> : <p style="display:inline-block" class="deliveryOrderQuantity"><%= order.quantity %></p></li>
-                </ul>
+                    <li class="d-inline" style="margin-bottom: -10px;text-transform: uppercase"><%= order.order_name %> : <p class="d-inline deliveryOrderQuantity"><%= order.quantity %></p><br></li>
                 <% } %>
             <% } %>
+            </ul>
+        </div>
           <% if (business.confirm === true) { %>
             <form class="form-inline"  style="width:100%; margin-top:20px" action="/businesses/confirm/<%= business.id %>?_method=PATCH" method='POST'>
               <div class="row animated" style="margin: auto">
-                <button type="submit" class="btn btn-outline-success active">Order Successfully Delivered!</button>
+                <button type="submit" class="btn btn-outline-success active">Order Successfully Delivered! <i class="fa fa-truck" aria-hidden="true"></i></button>
               </div>
             </form>
           <% } %>

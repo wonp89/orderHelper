@@ -20,11 +20,14 @@
                         <div class="col-md-7">
                           <i class="fa fa-calendar" aria-hidden="true"></i>
                           <h5 style="display: inline-block;text-transform: uppercase;"><%= business.day %></h5>
-                            <% if (business.confirm === true) { %>
-                              <i class="fa fa-circle" aria-hidden="true" style="float:right;color:red"></i>
+                            <% if (business.orderChecked === true) { %>
+                              <i class="fa fa-envelope orderSendAndReceived" aria-hidden="true"></i>
+                              <form id="my_form" class="form-inline d-inline" action="/businesses/orderChecked/<%= business.id %>?_method=PATCH" method='POST'>
+                                <input type="submit" class="btn-info checkOrder" value="Click To Confirm">
+                              </form>
+                            <% } else { %>
+                              <a class="btn-info checkOrder" style="padding:5px;border-radius:5px;" href="/businesses/<%= business.id %>/edit">Restaurant Detail</a>
                             <% } %>
-                              <a class="checkOrder" style="float:right; display:none" href="/businesses/<%= business.id %>/edit">Check Restaurant</a>
-
                         </div>
                       </div>
 

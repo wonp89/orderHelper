@@ -8,7 +8,7 @@ supplierList (req, res, next) {
     const {currentUser} = req;
 
     kx
-     .insert({supplierId: supplierId, businessId: currentUser.id, day, confirm: false})
+     .insert({supplierId: supplierId, businessId: currentUser.id, day, confirm: false, orderChecked: false})
      .into('businessRelationship')
      .then(() => res.redirect('/businesses'))
   },
@@ -18,7 +18,7 @@ supplierList (req, res, next) {
     const {id} = req.params
 
     kx('businessRelationship')
-    .update({confirm: true})
+    .update({confirm: true, orderChecked: true})
     .where({id})
     .then(() => res.redirect('/businesses'))
     .catch(error => next(error))
@@ -28,9 +28,20 @@ supplierList (req, res, next) {
     const {id} = req.params
 
     kx('businessRelationship')
-    .update({confirm: false})
+    .update({confirm: false, orderChecked: false})
     .where({id})
     .then(() => res.redirect('/businesses'))
+    .catch(error => next(error))
+  },
+
+  orderChecked (req, res, next) {
+    const {id} = req.params
+    console.log({id})
+
+    kx('businessRelationship')
+    .update({orderChecked: false})
+    .where({id})
+    .then(() => res.redirect(`/businesses`))
     .catch(error => next(error))
   },
 

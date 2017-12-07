@@ -48,7 +48,7 @@ for (i = 0; i < supplierlist.length; i++) {
 var deliveryOrderQuantity = document.getElementsByClassName("deliveryOrderQuantity");
 for (i = 0; i < deliveryOrderQuantity.length; i++) {
   if (deliveryOrderQuantity[i].innerHTML == 0 || deliveryOrderQuantity[i].innerHTML == "") {
-    deliveryOrderQuantity[i].parentElement.style.display = 'none';
+    deliveryOrderQuantity[i].parentElement.remove()
   }
 }
 
@@ -56,7 +56,7 @@ for (i = 0; i < deliveryOrderQuantity.length; i++) {
 function initMap(){
   // Map options
   var options = {
-    zoom:11,
+    zoom:12,
     center:{lat:lat,lng:lng}
   }
   // New map
