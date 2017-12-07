@@ -25,14 +25,30 @@ $(document).ready(function() {
       indexSection = document.getElementById("indexSection");
       names = indexSection.getElementsByClassName("names");
       for (i = 0; i < names.length; i++) {
-          a = names[i].getElementsByTagName("h5")[0];
-          if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+          deliveryName = names[i].getElementsByTagName("h5")[0];
+          deliveryDay = names[i].getElementsByTagName("h5")[1];
+          if (deliveryName.innerHTML.toUpperCase().indexOf(filter) > -1 || deliveryDay.innerHTML.toUpperCase().indexOf(filter) > -1) {
               names[i].style.display = "";
           } else {
               names[i].style.display = "none";
           }
       }
   }
+
+// ----------------- notifying to order before the delivery day ---------------- //
+var days = ['SUNDAY', 'MONDAY', "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"]
+var newDate = new Date();
+var getDay = newDate.getDay()
+var deliverDayNameMatch = document.getElementsByClassName("supplierName")
+var deliverDay = document.getElementsByClassName("deliverDay")
+for (i = 0; i < deliverDay.length; i++) {
+  dayElement = deliverDay[i]
+  day = deliverDay[i].innerHTML
+    if (day.toUpperCase() === days[getDay + 1]) {
+    dayElement.innerHTML = 'ORDER TODAY!';
+    dayElement.style.color = 'red';
+  }
+}
 
 //-------- if supplier names created on the index page, the names disapears inside the selector -------//
 var supplierlist = document.getElementsByTagName("option")

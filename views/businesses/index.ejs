@@ -7,6 +7,7 @@
       <!-- Trigger the modal with a button -->
       <h2 style="font-family: 'Poppins', sans-serif;margin-bottom:.8rem">My Suppliers</h2>
       <a href="#" data-toggle="modal" data-target="#myModal" id="addSupplier">Supplier <i class="fa fa-plus-square" aria-hidden="true"></i></a>
+      <p style="color: red; font-size: 12px;margin-top: 10px">Place your orders before the delivery day ( Check "ORDER TODAY!" )</p>
       <!-- Modal -->
       <div class="modal fade" id="myModal" role="dialog">
         <div class="modal-dialog">
@@ -32,7 +33,7 @@
                         class="form-control"
                         type="text"
                         name="day"
-                        placeholder="Add Delivery Days"
+                        placeholder="Add Delivery Day"
                       >
                     </div>
                     <button type="submit" class="btn btn-primary addButton">Add</button>
@@ -63,11 +64,11 @@
                         </div>
                         <div class="col-md-7">
                         <i class="fa fa-calendar" aria-hidden="true"></i>
-                          <h5 style="display: inline-block;text-transform: uppercase;"><%=supplier.day %></h5>
+                          <h5 class="deliverDay" style="display: inline-block;text-transform: uppercase;"><%=supplier.day %></h5>
                           <% if (supplier.orderChecked === true) { %>
                             <i class="fa fa-paper-plane orderSendAndReceived" style="margin-left:5px;" aria-hidden="true"></i>
                           <% } %>
-                          <a class="btn-info checkOrder" style="padding:5px;border-radius:5px;" href="/businesses/<%= supplier.id %>/edit">Edit / Send Order</a>
+                          <a class="btn-info checkOrder" style="padding:5px;border-radius:5px;" href="/businesses/<%= supplier.id %>/edit">Edit + Send Order</a>
                         </div>
                       </div>
                 </div>
