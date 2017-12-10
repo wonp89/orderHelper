@@ -139,9 +139,15 @@
             <% for (let res of supplier) { %>
                 <% if (business.businessId === res.businessId) { %>
                   <h1 class="restaurantName" style="font-family: 'Ubuntu', sans-serif;"><i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp<%= res.businessName %></h1>
-                  <div id="restaurantEmail"><strong><i class="fa fa-envelope-o" aria-hidden="true"></i>&nbsp<%= res.email %></strong></div>
+                  <div id="restaurantEmail"><strong><i class="fa fa-envelope" aria-hidden="true"></i>&nbsp<%= res.email %></strong></div>
                   <div id="restaurantAddress"><i class="fa fa-home" aria-hidden="true"></i>&nbsp<%=  res.street %>&nbsp<%=  res.city %>&nbsp<%=  res.province %>&nbsp<%=  res.postal %></div>
                 <% } %>
+            <% } %>
+            <% for (let sup of supplierRelationship) { %>
+                <% if (business.supplierId === sup.supplierId && business.businessId === sup.businessId) { %>
+                  <div id="supplierAddress" style="display: none"><i class="fa fa-home" aria-hidden="true"></i>&nbsp<%=  sup.street %>&nbsp<%=  sup.city %>&nbsp<%=  sup.province %>&nbsp<%=  sup.postal %></div>
+                <% } %>
+                <div id="distance"></div>
             <% } %>
           <hr style="border: 1px solid #ccc;">
           <h4 style="font-family: 'Ubuntu', sans-serif;">Order Detail</h4>

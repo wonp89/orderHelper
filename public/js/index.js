@@ -38,16 +38,20 @@ $(document).ready(function() {
 // ----------------- notifying to order before the delivery day ---------------- //
 var days = ['SUNDAY', 'MONDAY', "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"]
 var newDate = new Date();
-var getDay = newDate.getDay()
+var getDay = newDate.getDay();
 var deliverDayNameMatch = document.getElementsByClassName("supplierName")
 var deliverDay = document.getElementsByClassName("deliverDay")
 for (i = 0; i < deliverDay.length; i++) {
   dayElement = deliverDay[i]
   day = deliverDay[i].innerHTML
-    if (day.toUpperCase() === days[getDay + 1]) {
-    dayElement.innerHTML = 'ORDER TODAY!';
-    dayElement.style.color = 'red';
-  }
+  nextDay = days[getDay + 1]
+    if (nextDay ===  undefined || getDay === 0) {
+    nextDay = days[getDay]
+    }
+    if (day.toUpperCase() === nextDay) {
+      dayElement.innerHTML = 'ORDER TODAY!';
+      dayElement.style.color = 'red';
+    }
 }
 
 //-------- if supplier names created on the index page, the names disapears inside the selector -------//
@@ -68,57 +72,137 @@ for (i = 0; i < deliveryOrderQuantity.length; i++) {
   }
 }
 
-//---------->> google map api for supplier view <<---------- //
-function initMap(){
-  // Map options
-  var options = {
-    zoom:12,
-    center:{lat:lat,lng:lng}
-  }
-  // New map
-  var map = new google.maps.Map(document.getElementById('map'), options);
-  // marker
-  var markers =
-    {
-      coords:{lat:lat,lng:lng},
-      content:restaurant
-    }
-  addMarker(markers);
-  // Add Marker Function
-  function addMarker(props){
-    var marker = new google.maps.Marker({
-      position:props.coords,
-      map:map,
-    });
-    // Check content
-    if(props.content){
-      var infoWindow = new google.maps.InfoWindow({
-        content:props.content
-      });
-      marker.addListener('click', function(){
-        infoWindow.open(map, marker);
-      });
-    }
-  }
-}
+//---------->> google map location for supplier view <<---------- //
+// function initMap(){
+//   // Map options
+//   var options = {
+//     zoom:12,
+//     center:{lat:lat,lng:lng}
+//   }
+//   // New map
+//   var map = new google.maps.Map(document.getElementById('map'), options);
+//   // marker
+//   var markers = [
+//         {
+//           coords:{lat:lat,lng:lng},
+//           content:restaurant
+//         }
+//       ]
+//
+//   for(var i = 0;i < markers.length;i++){
+//     addMarker(markers[i]);
+//   }
+//   // Add Marker Function
+//   function addMarker(props){
+//     var marker = new google.maps.Marker({
+//       position:props.coords,
+//       map:map,
+//     });
+//     // Check content
+//     if(props.content){
+//       var infoWindow = new google.maps.InfoWindow({
+//         content:props.content
+//       });
+//       marker.addListener('click', function(){
+//         infoWindow.open(map, marker);
+//       });
+//     }
+//   }
+// }
+//
+// // <%# ------------- Geocode map script ----------------- %>
+// //------- restaurant location ------- //
+// var restaurantAddress = document.getElementById('restaurantAddress')
+// var restaurant = restaurantAddress.textContent;
+// var supplierAddress = document.getElementById('supplierAddress')
+// var supplier = supplierAddress.textContent;
 
-// <%# ------------- Geocode map script ----------------- %>
-//------- restaurant location ------- //
+
+// geocode();
+// function geocode() {
+//   axios.get('https://maps.googleapis.com/maps/api/geocode/json',{
+//     params:{
+//               address: restaurant,
+//               key:'AIzaSyAhjGo8hHwbT5e9MJuFV2JGDWuJnwAO6a8'
+//             }
+//   }).then(function(response){
+//     console.log(response)
+//       lat = response.data.results[0].geometry.location.lat;
+//       lng = response.data.results[0].geometry.location.lng;
+//     initMap()
+//   }).catch(function(error){
+//   })
+// }
+
+
+//------------- Matrix Api for distance ------------------ //
 var restaurantAddress = document.getElementById('restaurantAddress')
 var restaurant = restaurantAddress.textContent;
+var supplierAddress = document.getElementById('supplierAddress')
+var supplier = supplierAddress.textContent;
 
-geocode();
-function geocode() {
-  var location = restaurant
-  axios.get('https://maps.googleapis.com/maps/api/geocode/json',{
-    params:{
-      address:location,
-      key:'AIzaSyAhjGo8hHwbT5e9MJuFV2JGDWuJnwAO6a8'
+function initMap() {
+  var bounds = new google.maps.LatLngBounds;
+  var markersArray = [];
+
+  var origin = supplier;
+  var destination = restaurant;
+
+  var destinationIcon = 'https://chart.googleapis.com/chart?' +
+      'chst=d_map_pin_letter&chld=D|FF0000|000000';
+  var originIcon = 'https://chart.googleapis.com/chart?' +
+      'chst=d_map_pin_letter&chld=O|FFFF00|000000';
+  var map = new google.maps.Map(document.getElementById('map'), {
+    // center: {lat: , lng: },
+    zoom: 10
+  });
+  var geocoder = new google.maps.Geocoder;
+
+  var service = new google.maps.DistanceMatrixService;
+  service.getDistanceMatrix({
+    origins: [origin],
+    destinations: [destination],
+    travelMode: 'DRIVING',
+    unitSystem: google.maps.UnitSystem.METRIC,
+    avoidHighways: false,
+    avoidTolls: false
+  }, function(response, status) {
+    console.log(response)
+    if (status !== 'OK') {
+      alert('Error was: ' + status);
+    } else {
+      var originList = response.originAddresses;
+      var destinationList = response.destinationAddresses;
+      var outputDiv = document.getElementById('distance');
+      outputDiv.innerHTML = '';
+
+      var showGeocodedAddressOnMap = function(asDestination) {
+        var icon = asDestination ? destinationIcon : originIcon;
+        return function(results, status) {
+          if (status === 'OK') {
+            map.fitBounds(bounds.extend(results[0].geometry.location));
+            markersArray.push(new google.maps.Marker({
+              map: map,
+              position: results[0].geometry.location,
+              icon: icon
+            }));
+          } else {
+            alert('Geocode was not successful due to: ' + status);
+          }
+        };
+      };
+
+      for (var i = 0; i < originList.length; i++) {
+        var results = response.rows[i].elements;
+        geocoder.geocode({'address': originList[i]},
+            showGeocodedAddressOnMap(false));
+        for (var j = 0; j < results.length; j++) {
+          geocoder.geocode({'address': destinationList[j]},
+              showGeocodedAddressOnMap(true));
+          outputDiv.innerHTML += '<i class="fa fa-truck" aria-hidden="true"></i>' + ' To destination :' + ' ' + results[j].distance.text + ' in ' +
+              results[j].duration.text + '<br>';
+        }
+      }
     }
-  }).then(function(response){
-    lat = response.data.results[0].geometry.location.lat;
-    lng = response.data.results[0].geometry.location.lng;
-    initMap()
-  }).catch(function(error){
-    })
+  });
 }

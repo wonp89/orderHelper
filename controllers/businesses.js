@@ -15,7 +15,6 @@ const businessView = async (currentUser, req, res, next) => {
     .from('users')
     .innerJoin('businessRelationship', 'users.id', 'businessRelationship.supplierId')
 
-
     const orders = await kx
     .select()
     .from('orders')

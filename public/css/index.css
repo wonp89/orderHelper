@@ -39,6 +39,12 @@ background-size: 100%;
 }
 
 /*flash message for user*/
+#topParagraph {
+  color: red;
+  font-size: 12px;
+  margin-bottom:5px;
+  opacity:.6;"
+}
 
 .alert-dismissible.fade.show {
     padding:0;

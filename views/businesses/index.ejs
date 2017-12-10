@@ -1,13 +1,12 @@
 <%- include('../partials/header') %>
 <br>
 <section class="businesses-list row justify-content-center" id="indexSection">
-
       <!-- Create Business-->
    <div class="container" style="text-align: center">
       <!-- Trigger the modal with a button -->
       <h2 style="font-family: 'Poppins', sans-serif;margin-bottom:.8rem">My Suppliers</h2>
+      <p id="topParagraph">Place your orders before the delivery day ( Check "ORDER TODAY!" )</p>
       <a href="#" data-toggle="modal" data-target="#myModal" id="addSupplier">Supplier <i class="fa fa-plus-square" aria-hidden="true"></i></a>
-      <p style="color: red; font-size: 12px;margin-top: 10px">Place your orders before the delivery day ( Check "ORDER TODAY!" )</p>
       <!-- Modal -->
       <div class="modal fade" id="myModal" role="dialog">
         <div class="modal-dialog">
@@ -16,32 +15,32 @@
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal">&times;</button>
               <h4 class="modal-title">Add a Supplier</h4>
-            </div>
-            <div class="modal-body">
-              <!-- Inside Modal : supplier and day selector -->
-                <form class="form-inline" action="/businesses/supplierList" method='POST'>
-                  <div class="row" style="margin: auto;" id="business_form">
-                    <select name="supplierId" class="supplierSelector">
-                          <option> Select Supplier </option>
-                        <% for (let supplier of suppliers) { %>
-                          <option class="supplierLists" value=<%= supplier.id %>><%= supplier.businessName %></option>
-                        <% } %>
-                    </select>
-                    <div class="form-group">
-                      <input
-                        style="margin-left: 10px"
-                        class="form-control"
-                        type="text"
-                        name="day"
-                        placeholder="Add Delivery Day"
-                      >
+              </div>
+              <div class="modal-body">
+                <!-- Inside Modal : supplier and day selector -->
+                  <form class="form-inline" action="/businesses/supplierList" method='POST'>
+                    <div class="row" style="margin: auto;" id="business_form">
+                      <select name="supplierId" class="supplierSelector">
+                            <option> Select Supplier </option>
+                          <% for (let supplier of suppliers) { %>
+                            <option class="supplierLists" value=<%= supplier.id %>><%= supplier.businessName %></option>
+                          <% } %>
+                      </select>
+                      <div class="form-group">
+                        <input
+                          style="margin-left: 10px"
+                          class="form-control"
+                          type="text"
+                          name="day"
+                          placeholder="Add Delivery Day"
+                        >
+                      </div>
+                      <button type="submit" class="btn btn-primary addButton">Add</button>
                     </div>
-                    <button type="submit" class="btn btn-primary addButton">Add</button>
-                  </div>
-                </form>
-              <!-- -->
-            </div>
-            <div class="modal-footer">
+                  </form>
+                <!-- -->
+              </div>
+              <div class="modal-footer">
             </div>
           </div>
         </div>
@@ -63,7 +62,7 @@
                           <h5 class="supplierName" style="display: inline-block;text-transform: uppercase;"><%= supplier.businessName %></h5>
                         </div>
                         <div class="col-md-7">
-                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                        <i class="fa fa-calendar calendarIcon" aria-hidden="true"></i>
                           <h5 class="deliverDay" style="display: inline-block;text-transform: uppercase;"><%=supplier.day %></h5>
                           <% if (supplier.orderChecked === true) { %>
                             <i class="fa fa-paper-plane orderSendAndReceived" style="margin-left:5px;" aria-hidden="true"></i>
@@ -161,6 +160,7 @@
               </div>
           <% } %>
         <% } %>
+
 </section>
 
 
