@@ -19,6 +19,7 @@ const businessView = async (currentUser, req, res, next) => {
     .select()
     .from('orders')
     .innerJoin('users', 'orders.supplierId', 'users.id')
+    .orderBy('orders.id')
 
       res.render('businesses/index', {businessSuppliers, orders, suppliers})
     } catch (error) {
@@ -38,6 +39,7 @@ const supplierView = async (currentUser, req, res, next) => {
     .select()
     .from('orders')
     .innerJoin('users', 'orders.businessId', 'users.id')
+    .orderBy('orders.id')
 
       res.render('businesses/supplierIndex', {businesses, orders})
     } catch (error) {
@@ -84,11 +86,13 @@ const BusinessesController = {
       .select()
       .from('orders')
       .where({businessId: currentUser.id})
+      .orderBy('orders.id')
 
       const supplierOrders = await kx
       .select()
       .from('orders')
       .where({supplierId: currentUser.id})
+      .orderBy('orders.id')
 
       const supplierRelationship = await kx
       .select('*', 'users.id as userId')

@@ -1,5 +1,5 @@
 //toggle business_list
-$(document).ready(function() {
+$(document).ready(() => {
   //orders slidedown
   $('.list_show').on('click', function(){
     $(this).nextUntil('.list_show').slideToggle(200);
@@ -10,16 +10,16 @@ $(document).ready(function() {
                      alert("The supplier will be removed from your list. You orders will not be deleted for your future comeback.");
                      });
     //beginButton for welcome page: setting up timeout for next animation
-    setTimeout(function () {
+    setTimeout(() => {
       $('.beginButton').addClass('animated fadeIn');}, 1000
     );
-    setTimeout(function () {
+    setTimeout(() => {
       $('.content').show().addClass('animated fadeIn');}, 1000
     );
   });
 
 //------------- Search Business --------------//
-  function search() {
+  search = () => {
       input = document.getElementById("businessSearch");
       filter = input.value.toUpperCase();
       indexSection = document.getElementById("indexSection");
@@ -45,8 +45,8 @@ for (i = 0; i < deliverDay.length; i++) {
   dayElement = deliverDay[i]
   day = deliverDay[i].innerHTML
   nextDay = days[getDay + 1]
-    if (nextDay ===  undefined || getDay === 0) {
-    nextDay = days[getDay]
+    if (nextDay ===  undefined) {
+    nextDay = days[0]
     }
     if (day.toUpperCase() === nextDay) {
       dayElement.innerHTML = 'ORDER TODAY!';
@@ -141,7 +141,7 @@ var restaurant = restaurantAddress.textContent;
 var supplierAddress = document.getElementById('supplierAddress')
 var supplier = supplierAddress.textContent;
 
-function initMap() {
+ initMap = () => {
   var bounds = new google.maps.LatLngBounds;
   var markersArray = [];
 
@@ -150,8 +150,12 @@ function initMap() {
 
   var destinationIcon = 'https://chart.googleapis.com/chart?' +
       'chst=d_map_pin_letter&chld=D|FF0000|000000';
-  var originIcon = 'https://chart.googleapis.com/chart?' +
-      'chst=d_map_pin_letter&chld=O|FFFF00|000000';
+  var originIcon = {
+          url: 'http://maps.google.com/mapfiles/ms/micons/truck.png',
+          size: new google.maps.Size(35, 32),
+          origin: new google.maps.Point(0, 0),
+          anchor: new google.maps.Point(0, 32)
+        };
   var map = new google.maps.Map(document.getElementById('map'), {
     // center: {lat: , lng: },
     zoom: 10
@@ -166,7 +170,7 @@ function initMap() {
     unitSystem: google.maps.UnitSystem.METRIC,
     avoidHighways: false,
     avoidTolls: false
-  }, function(response, status) {
+  }, (response, status) => {
     console.log(response)
     if (status !== 'OK') {
       alert('Error was: ' + status);
@@ -176,9 +180,9 @@ function initMap() {
       var outputDiv = document.getElementById('distance');
       outputDiv.innerHTML = '';
 
-      var showGeocodedAddressOnMap = function(asDestination) {
+      showGeocodedAddressOnMap = (asDestination) => {
         var icon = asDestination ? destinationIcon : originIcon;
-        return function(results, status) {
+        return (results, status) => {
           if (status === 'OK') {
             map.fitBounds(bounds.extend(results[0].geometry.location));
             markersArray.push(new google.maps.Marker({

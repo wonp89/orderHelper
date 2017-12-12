@@ -38,7 +38,7 @@ app.use(session({
 app.use(flash())
 app.use(async function setCurrentUser (req, res, next){
    const {userId} = req.session
-   let user
+   let user;
    req.currentUser = false
    res.locals.currentUser = false
    if (userId) {

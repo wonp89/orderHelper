@@ -5,6 +5,7 @@ const SessionsController = {
   new (req, res, next) {
     res.render('sessions/new')
   },
+
   async create (req, res, next) {
     const {email, password} = req.body
 
@@ -23,8 +24,9 @@ const SessionsController = {
       next(error)
     }
   },
+
   destroy (req, res, next) {
-    req.session.userId = null
+    req.session.userId = null;
     req.flash('success', 'Logged out successfully!')
     res.redirect('/')
   }
