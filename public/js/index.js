@@ -46,9 +46,13 @@ for (i = 0; i < deliverDay.length; i++) {
   day = deliverDay[i].innerHTML
   nextDay = days[getDay + 1]
     if (nextDay ===  undefined) {
-    nextDay = days[0]
+    nextDay = days[getDay]
+      if (nexDay === day.toUpperCase()) {
+        dayElement.innerHTML = 'ORDER TODAY!';
+        dayElement.style.color = 'red';
+      }
     }
-    if (day.toUpperCase() === nextDay) {
+    else if (day.toUpperCase() === nextDay) {
       dayElement.innerHTML = 'ORDER TODAY!';
       dayElement.style.color = 'red';
     }
@@ -64,6 +68,7 @@ for (i = 0; i < supplierlist.length; i++) {
      }
   }
 }
+
 // ------- if orders quantity is 0 in supplier 'check restaurant' view, orders will be hidden ----- //
 var deliveryOrderQuantity = document.getElementsByClassName("deliveryOrderQuantity");
 for (i = 0; i < deliveryOrderQuantity.length; i++) {
@@ -71,69 +76,6 @@ for (i = 0; i < deliveryOrderQuantity.length; i++) {
     deliveryOrderQuantity[i].parentElement.remove()
   }
 }
-
-//---------->> google map location for supplier view <<---------- //
-// function initMap(){
-//   // Map options
-//   var options = {
-//     zoom:12,
-//     center:{lat:lat,lng:lng}
-//   }
-//   // New map
-//   var map = new google.maps.Map(document.getElementById('map'), options);
-//   // marker
-//   var markers = [
-//         {
-//           coords:{lat:lat,lng:lng},
-//           content:restaurant
-//         }
-//       ]
-//
-//   for(var i = 0;i < markers.length;i++){
-//     addMarker(markers[i]);
-//   }
-//   // Add Marker Function
-//   function addMarker(props){
-//     var marker = new google.maps.Marker({
-//       position:props.coords,
-//       map:map,
-//     });
-//     // Check content
-//     if(props.content){
-//       var infoWindow = new google.maps.InfoWindow({
-//         content:props.content
-//       });
-//       marker.addListener('click', function(){
-//         infoWindow.open(map, marker);
-//       });
-//     }
-//   }
-// }
-//
-// // <%# ------------- Geocode map script ----------------- %>
-// //------- restaurant location ------- //
-// var restaurantAddress = document.getElementById('restaurantAddress')
-// var restaurant = restaurantAddress.textContent;
-// var supplierAddress = document.getElementById('supplierAddress')
-// var supplier = supplierAddress.textContent;
-
-
-// geocode();
-// function geocode() {
-//   axios.get('https://maps.googleapis.com/maps/api/geocode/json',{
-//     params:{
-//               address: restaurant,
-//               key:'AIzaSyAhjGo8hHwbT5e9MJuFV2JGDWuJnwAO6a8'
-//             }
-//   }).then(function(response){
-//     console.log(response)
-//       lat = response.data.results[0].geometry.location.lat;
-//       lng = response.data.results[0].geometry.location.lng;
-//     initMap()
-//   }).catch(function(error){
-//   })
-// }
-
 
 //------------- Matrix Api for distance ------------------ //
 var restaurantAddress = document.getElementById('restaurantAddress')
@@ -210,3 +152,66 @@ var supplier = supplierAddress.textContent;
     }
   });
 }
+
+//---------->> google map location "ONLY(without distance and travel time)" for supplier view <<---------- //
+//----------------->> if supplies deliver from abroad, distance and travel time is unecessary <<---------------//
+// function initMap(){
+//   // Map options
+//   var options = {
+//     zoom:12,
+//     center:{lat:lat,lng:lng}
+//   }
+//   // New map
+//   var map = new google.maps.Map(document.getElementById('map'), options);
+//   // marker
+//   var markers = [
+//         {
+//           coords:{lat:lat,lng:lng},
+//           content:restaurant
+//         }
+//       ]
+//
+//   for(var i = 0;i < markers.length;i++){
+//     addMarker(markers[i]);
+//   }
+//   // Add Marker Function
+//   function addMarker(props){
+//     var marker = new google.maps.Marker({
+//       position:props.coords,
+//       map:map,
+//     });
+//     // Check content
+//     if(props.content){
+//       var infoWindow = new google.maps.InfoWindow({
+//         content:props.content
+//       });
+//       marker.addListener('click', function(){
+//         infoWindow.open(map, marker);
+//       });
+//     }
+//   }
+// }
+
+//<%# ------------- Geocode map script ----------------- %>
+//------- restaurant location ------- //
+// var restaurantAddress = document.getElementById('restaurantAddress')
+// var restaurant = restaurantAddress.textContent;
+// var supplierAddress = document.getElementById('supplierAddress')
+// var supplier = supplierAddress.textContent;
+
+
+// geocode();
+// function geocode() {
+//   axios.get('https://maps.googleapis.com/maps/api/geocode/json',{
+//     params:{
+//               address: restaurant,
+//               key:'AIzaSyAhjGo8hHwbT5e9MJuFV2JGDWuJnwAO6a8'
+//             }
+//   }).then(function(response){
+//     console.log(response)
+//       lat = response.data.results[0].geometry.location.lat;
+//       lng = response.data.results[0].geometry.location.lng;
+//     initMap()
+//   }).catch(function(error){
+//   })
+// }
