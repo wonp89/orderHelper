@@ -10,10 +10,10 @@
 JavaScript, Node, Express, knex.js, jQuery, HTML/CSS, Bootstrap, PostgreSQL, Google Maps API
 
 ## Installation
-npm init
-npm install
-nodemon
-localhost:3000
+npm init<br />
+npm install<br />
+nodemon<br />
+localhost:3000<br />
 
 ## Screenshot
 ![1](https://user-images.githubusercontent.com/30785413/33972668-eb4fa554-e033-11e7-86ae-8f6f78abe033.png)
