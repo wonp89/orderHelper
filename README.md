@@ -1,4 +1,5 @@
-# CoreCore Final-Project: ORDER-HELPER
+# ORDER-HELPER
+This is my final project for CodeCore.
 
 ## About my project
 • Order-Helper is a web app that simplifies order management for restaurants and suppliers.<br />
