@@ -46,8 +46,8 @@ for (i = 0; i < deliverDay.length; i++) {
   day = deliverDay[i].innerHTML
   nextDay = days[getDay + 1]
     if (nextDay ===  undefined) {
-    nextDay = days[getDay]
-      if (nexDay === day.toUpperCase()) {
+    nextDay = days[0]
+      if (nextDay === day.toUpperCase()) {
         dayElement.innerHTML = 'ORDER TODAY!';
         dayElement.style.color = 'red';
       }
