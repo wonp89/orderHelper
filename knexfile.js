@@ -1,6 +1,7 @@
 // Update with your config settings.
 const sharedConfig = {
   client: 'postgresql',
+  connection: process.env.DATABASE_URL + `?ssl=true`,
   migrations: {
     tableName: 'knex_migrations',
     directory: './db/migrations'
@@ -23,7 +24,7 @@ module.exports = {
   },
 
   production: {
-    ...sharedConfig, 
+    ...sharedConfig,
     connection: {
       database: 'order_pro'
     }
