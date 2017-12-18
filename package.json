@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www",
+    "start": "./bin/www",
     "debug": "nodemon --inspect=9229",
     "repl": "nodemon --inspect=9222 repl.js",
     "db:create": "createdb --echo order_dev",
