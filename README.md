@@ -18,6 +18,13 @@ knex<br />
 postgreSQL<br />
 localhost:3000<br />
 
+## To Start
+After clone this repo,<br />
+npm install<br />
+npm run db:create<br />
+npm run db:migrate<br />
+npm start<br />
+
 ## Screenshot
 ![screen shot 2017-12-17 at 10 34 20 pm](https://user-images.githubusercontent.com/30785413/34093764-f0599de0-e37e-11e7-956e-58dbb6e9cdc9.png)
 ![screen shot 2017-12-17 at 10 37 34 pm](https://user-images.githubusercontent.com/30785413/34093787-158ab176-e37f-11e7-8e94-340c14e33d0b.png)

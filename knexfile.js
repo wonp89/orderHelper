@@ -24,8 +24,9 @@ module.exports = {
 
   production: {
     ...sharedConfig,
-    connection: 'postgres://gzoddbmqvdtawa:b0943e976a7083f11ba591fc3a9e904ff75b6e064d41d25cecedd28b64187ae6@ec2-107-21-201-57.compute-1.amaz
-onaws.com:5432/d5cnl9ai2tsfkj'
+    connection: {
+      database: 'order_pro'
+    }
   }
 
 };
