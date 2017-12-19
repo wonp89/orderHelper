@@ -25,6 +25,9 @@ npm run db:create<br />
 npm run db:migrate<br />
 npm start<br />
 
+## Mockup before starting project
+![mockforfinalproject](https://user-images.githubusercontent.com/30785413/34178094-d0b58b74-e4ba-11e7-9823-401bd35e7bea.png)
+
 ## Screenshot
 ![screen shot 2017-12-17 at 10 34 20 pm](https://user-images.githubusercontent.com/30785413/34093764-f0599de0-e37e-11e7-956e-58dbb6e9cdc9.png)
 ![screen shot 2017-12-17 at 10 37 34 pm](https://user-images.githubusercontent.com/30785413/34093787-158ab176-e37f-11e7-8e94-340c14e33d0b.png)
